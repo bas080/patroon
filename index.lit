@@ -1,0 +1,156 @@
+@title Patroon.js
+
+@s Introduction
+
+Patroon.js as an attempt to add pattern matching-ish functionality without
+introducing new syntax.
+
+This project uses [literate programming][1] to generate all source code. Only
+the README.lit should be used to edit code.
+
+[1]: https://github.com/zyedidia/Literate
+
+@s Specifications
+
+--- ./src/index.test.js
+const {test} = require('tape')
+const { check, gen } = require('tape-check')
+const {
+  p, // predicate
+  _, // placeholder,
+  patroon,
+  NoMatchError
+} = require('./index')
+
+const simpleObject = {a: 1}
+const otherObject = {b: 1}
+const emptyObject = {}
+
+test('Matches using an array pattern', t => {
+  patroon(
+    [_, 10], () => t.fail(),
+    [_, 20], () => t.end()
+  )([10, 20])
+})
+
+test('Matches always when pattern equals value', check(gen.any, (t, val) => {
+  patroon(val, () => t.pass('matches'))(val)
+  t.end()
+}));
+
+test('Matches the first pattern', t => {
+  patroon(simpleObject, a => t.end())(simpleObject)
+})
+
+test('Matches the second case', t => {
+  patroon(
+    simpleObject, () => t.fail(),
+    otherObject, () => t.end()
+  )(otherObject)
+})
+
+test('Matches the default case', t => {
+  patroon(
+    simpleObject, () => t.fail(),
+    _, a => t.equals(a, otherObject) // default case
+  )(otherObject)
+  t.end()
+})
+
+test('Matches a nested pattern', t => {
+  patroon(
+    {ok: {value: 20}}, () => t.fail(),
+    {error: {value: _}}, ({error}) => t.end(),
+    {error: _}, ({error}) => t.fail()
+  )({error: {value: 20}})
+})
+
+test('Matches none of the patterns and throws', t => {
+  try {
+    patroon(
+      simpleObject, () => t.fail(),
+      otherObject,  () => t.fail()
+    )(emptyObject)
+    t.fail()
+  } catch(e) {
+    t.ok(e instanceof NoMatchError)
+    t.end()
+  }
+})
+
+test('Matches using a predicate', t => {
+  const gt2 = v => v > 2
+
+  t.equals(patroon(
+    p(gt2), () => 2
+  )(4), 2)
+  t.end()
+})
+---
+
+@s Implementation
+
+--- ./src/index.js
+const placeholderSymbol = Symbol('placeholder')
+const predicateSymbol = Symbol('predicate')
+class NoMatchError extends Error {}
+
+@{Helpers}
+
+module.exports = Object.assign(patroon, {
+  patroon,
+  _: placeholderSymbol,
+  p: predicate,
+  NoMatchError,
+})
+
+function patroon(...list) {
+  const pairs = toPairs(list)
+  return function (value) {
+    const [_, fn] = pairs.find(([pattern, fn]) => matches(pattern, value)) ||
+      [null, v => {
+        // console.error('\n', v, '\n')
+        throw new NoMatchError()
+      }]
+    return fn(value)
+  }
+}
+
+function matches(a, b) {
+  if (a && a[predicateSymbol]) {
+    return a(b)
+  }
+
+  if (Array.isArray(a)) {
+    return Object.keys(a).every(key => matches(a[key], b[key]))
+  }
+
+  if (typeof a === 'object' && a !== null) {
+    const aKeys = Object.keys(a)
+
+    return matches(aKeys, Object.keys(b)) &&
+      aKeys.every(key => matches(a[key], b[key]))
+  }
+
+  return a === placeholderSymbol || a === b || Object.is(a, b)
+}
+
+function predicate(fn) {
+  function predicate (value) {
+    return fn(value)
+  }
+
+  predicate[predicateSymbol] = true
+
+  return predicate
+}
+---
+
+--- Helpers
+// TODO: write some tests for arrays with odd list length and empty list.
+function toPairs([a, b, ...rest], result = []) {
+  return (rest.length !== 0)
+    ? toPairs(rest, [...result, [a, b]])
+    : [...result, [a, b]]
+}
+---
