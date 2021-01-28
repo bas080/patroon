@@ -1,0 +1,19 @@
+{
+  "name": "patroon",
+  "version": "0.0.1",
+  "description": "Pattern matching library",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "tape ./src/index.test.js"
+  },
+  "keywords": [
+    "pattern",
+    "matching"
+  ],
+  "author": "Bassim Huis",
+  "devDependencies": {
+    "tape": "^5.1.1",
+    "tape-check": "^1.0.0-rc.0",
+    "testcheck": "^1.0.0-rc.2"
+  }
+}

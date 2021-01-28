@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+cat <(echo '
+const { test } = require("tape")
+const {
+  _, // placeholder,
+  t: typed,
+  ref,
+  patroon,
+  NoMatchError
+} = require("./src/index")
+
+const simpleObject = { a: 1 }
+const otherObject = { b: 1 }
+const emptyObject = {}
+
+class A { }
+class B { }
+
+
+test(t => {
+  const fail = () => t.fail()
+  const pass = () => t.pass()
+  const end = () => t.end()
+') \
+  - \
+  <(echo ' })') | node - 1>&2
