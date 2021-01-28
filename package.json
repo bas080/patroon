@@ -1,0 +1,21 @@
+{
+  "name": "patroon",
+  "version": "0.0.0",
+  "description": "Pattern matching in node",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "tape ./src/index.test.js"
+  },
+  "keywords": [
+    "pattern",
+    "matching",
+    "js"
+  ],
+  "author": "Bassim Huis",
+  "license": "MIT",
+  "devDependencies": {
+    "tape": "^5.1.1",
+    "tape-check": "^1.0.0-rc.0",
+    "testcheck": "^1.0.0-rc.2"
+  }
+}
