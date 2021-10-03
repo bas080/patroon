@@ -20,7 +20,7 @@ Let's see what valid and less valid uses of patroon are.
 
 ### Arrays
 
-A less intuitive case (atleast initially) is the matching with an empty array.
+A less intuitive case (at least initially) is the matching with an empty array.
 
 ```js ./tape-test
 patroon(
@@ -29,7 +29,7 @@ patroon(
 )([1])
 ```
 
-Notice that the empty array watches with `[1]`. This is because the empty array
+Notice that the empty array matches with `[1]`. This is because the empty array
 is a subset of `[1]`.
 
 In this case you might as well write the following for readability sake:
@@ -80,7 +80,7 @@ t.end()
 The array pattern assumes that the array has rest elements. It's a design
 choice which avoids adding additional helpers with little to no downsides.
 
-In case the seamingly unexpected case seems truely unexpected; I suggest you
+In case the seemingly unexpected case seems truly unexpected; I suggest you
 think of patterns as a subset of the value you are trying to match. In the case
 of arrays. `[1,2]` is a subset of `[1,2,3]`. `[2,3]` is not a subset of
 `[1,2,3]` because arrays also care about the order of elements.
@@ -149,7 +149,7 @@ patroon(
 )({a: 1})
 ```
 
-Next we match on the existance of object keys. We use the `_` to
+Next we match on the existence of object keys. We use the `_` to
 achieve this.
 
 ```js ./tape-test
@@ -261,7 +261,7 @@ npm test
 ```
 ```
 
-> patroon@0.0.1 test
+> patroon@0.0.2 test
 > tape ./src/index.test.js
 
 TAP version 13
