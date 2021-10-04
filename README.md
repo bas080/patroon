@@ -1,7 +1,6 @@
 # Patroon
 
-Patroon as an attempt to add pattern matching-ish functionality without
-introducing new syntax.
+Pattern matching in Javascript without additional syntax.
 
 ## Implementation
 
@@ -299,6 +298,17 @@ The README.md is generated using [markatzea][6].
 ```bash bash
 test "$RECUR" -eq 1 || RECUR=1 markatzea README.mz | tee README.md
 ```
+
+## Contribute
+
+You may contribute in whatever manner you see fit. Do try to be helpful and
+polite. Some suggestions for contributions:
+
+- [ ] Matching on strings in a similar manner to arrays.
+- [ ] Allow regular expressions for matching strings.
+- [ ] Find and report bugs and inconsistencies.
+- [ ] Suggest API improvements in naming and functionality.
+- [ ] A fitting logo.
 
 [1]:https://en.wikipedia.org/wiki/Tree_traversal
 [2]:https://github.com/bas080/patroon/blob/master/src/walkable.js
