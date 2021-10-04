@@ -260,7 +260,7 @@ npm test
 ```
 ```
 
-> patroon@0.0.2 test
+> patroon@0.0.5 test
 > tape ./src/index.test.js
 
 TAP version 13

@@ -1,6 +1,6 @@
 {
   "name": "patroon",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pattern matching library",
   "repository": "github:bas080/patroon",
   "main": "./src/index.js",
@@ -12,6 +12,7 @@
     "matching"
   ],
   "author": "Bassim Huis",
+  "license": "GPLv3",
   "devDependencies": {
     "tape": "^5.1.1",
     "tape-check": "^1.0.0-rc.0",
