@@ -76,6 +76,21 @@ t.equal(arrayMatch([2, 3]), 1)
 t.end()
 ```
 
+How to define default argument values:
+
+```js ./tape-test
+const count = patroon(
+  [_], ([, ...xs], n=0) => count(xs, n+ 1),
+  [], (array, c=0) => c
+)
+
+t.equals(count([]), 0)
+t.equals(count([1]), 1)
+t.equals(count([1, 2]), 2)
+t.end()
+```
+
+
 The array pattern assumes that the array has rest elements. It's a design
 choice which avoids adding additional helpers with little to no downsides.
 
@@ -291,6 +306,10 @@ Standard is good enough.
 npx standard || npx standard --fix
 ```
 
+## Stackoverflow
+
+This project is mentioned in the following [stackoverflow question][7].
+
 ## Documentation
 
 The README.md is generated using [markatzea][6].
@@ -316,3 +335,4 @@ polite. Some suggestions for contributions:
 [4]:https://github.com/bas080/patroon/blob/master/src/helpers.js
 [5]:https://github.com/bas080/patroon/blob/master/src/index.test.js
 [6]:https://github.com/bas080/markatzea
+[7]https://stackoverflow.com/questions/50452844/functional-programming-style-pattern-matching-in-javascript/67376827#67376827
