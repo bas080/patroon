@@ -260,7 +260,7 @@ npm test
 ```
 ```
 
-> patroon@0.0.5 test
+> patroon@0.0.6 test
 > tape ./src/index.test.js
 
 TAP version 13
@@ -296,7 +296,7 @@ npx standard || npx standard --fix
 The README.md is generated using [markatzea][6].
 
 ```bash bash
-test "$RECUR" -eq 1 || RECUR=1 markatzea README.mz | tee README.md
+test "$RECUR" -eq 1 || RECUR=1 markatzea README.mz > README.md
 ```
 
 ## Contribute

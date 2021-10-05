@@ -1,6 +1,6 @@
 {
   "name": "patroon",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Pattern matching library",
   "repository": "github:bas080/patroon",
   "main": "./src/index.js",
@@ -8,8 +8,16 @@
     "test": "tape ./src/index.test.js"
   },
   "keywords": [
+    "array",
+    "condition",
+    "match",
+    "matching",
+    "object",
     "pattern",
-    "matching"
+    "pattern-matching",
+    "predicate",
+    "types",
+    "string"
   ],
   "author": "Bassim Huis",
   "license": "GPLv3",
