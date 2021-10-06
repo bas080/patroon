@@ -17,6 +17,17 @@ Pattern matching in Javascript without additional syntax.
 
 Let's see what valid and less valid uses of patroon are.
 
+### Regular Expressions
+
+Will check if a Regex matches the passed string using the `.test` method.
+
+```js ./tape-test
+patroon(
+  /^bunion/, fail,
+  /^banana/,end
+)('banana tree')
+```
+
 ### Arrays
 
 A less intuitive case (at least initially) is the matching with an empty array.
@@ -31,7 +42,7 @@ patroon(
 Notice that the empty array matches with `[1]`. This is because the empty array
 is a subset of `[1]`.
 
-In this case you might as well write the following for readability sake:
+You might as well write the following for readability sake:
 
 ```js ./tape-test
 patroon(
@@ -39,8 +50,8 @@ patroon(
 )([1])
 ```
 
-Patroon even tries to determine if something is a constructor. No need to use
-typed in that case.
+Patroon tries to determine if something is a constructor. No need to use typed
+for this case.
 
 ```js ./tape-test
 patroon(
@@ -49,7 +60,8 @@ patroon(
 )([1])
 ```
 
-If you wish to match on the reference of a constructor you can use the `ref` helper.
+If you wish to match on the reference of a constructor you can use the `ref`
+helper.
 
 ```js ./tape-test
 patroon(
@@ -80,7 +92,7 @@ How to define default argument values:
 
 ```js ./tape-test
 const count = patroon(
-  [_], ([, ...xs], n=0) => count(xs, n+ 1),
+  [_], ([, ...xs], n=0) => count(xs, n + 1),
   [], (array, c=0) => c
 )
 
@@ -89,7 +101,6 @@ t.equals(count([1]), 1)
 t.equals(count([1, 2]), 2)
 t.end()
 ```
-
 
 The array pattern assumes that the array has rest elements. It's a design
 choice which avoids adding additional helpers with little to no downsides.
@@ -146,7 +157,7 @@ So that's arrays. What about objects.
 
 ### Objects
 
-Just like an empty array; matching on an empty object can be written in two
+Just like an empty array; matching on an empty object can be written in three
 ways.
 
 ```js ./tape-test
@@ -210,6 +221,7 @@ patroon(
 ```
 
 An object of a certain type might also have values we would want to match on.
+Here you do need to use the typed helper.
 
 ```js ./tape-test
 patroon(
@@ -265,17 +277,36 @@ patroon(
 )([{a: 42}])
 ```
 
+### Custom Helpers
+
+It is very easy to write your own helpers. All the builtin helpers are really
+just predicates. Let's look at the source of one of these helpers, the simplest
+one being the `_` helper.
+
+```js
+const _ = () => true
+```
+
+Other more complex helpers like the typed helper are also predicates. See the
+[./src/index.js][3] if you are interested in their implementation.
+
 ## Tests
 
 Now for some additional edge cases and some generative testing.
 [./src/index.test.js][5]
+
+First make sure the dependencies are clean.
+
+```bash bash &> /dev/null
+npm i && npm prune
+```
 
 ```bash bash
 npm test
 ```
 ```
 
-> patroon@0.0.6 test
+> patroon@0.1.0 test
 > tape ./src/index.test.js
 
 TAP version 13
@@ -323,11 +354,11 @@ test "$RECUR" -eq 1 || RECUR=1 markatzea README.mz > README.md
 You may contribute in whatever manner you see fit. Do try to be helpful and
 polite. Some suggestions for contributions:
 
-- [ ] Matching on strings in a similar manner to arrays.
-- [ ] Allow regular expressions for matching strings.
-- [ ] Find and report bugs and inconsistencies.
-- [ ] Suggest API improvements in naming and functionality.
 - [ ] A fitting logo.
+- [ ] Find and report bugs and inconsistencies.
+- [ ] Improve documentation.
+- [ ] Prevent exceeding stack size by managing recursive patterns.
+- [ ] Suggest API improvements in naming and functionality.
 
 [1]:https://en.wikipedia.org/wiki/Tree_traversal
 [2]:https://github.com/bas080/patroon/blob/master/src/walkable.js

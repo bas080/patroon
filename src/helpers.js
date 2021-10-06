@@ -12,7 +12,12 @@ function isConstructor (func) {
   return Boolean(func && typeof func === 'function' && func.prototype && func.prototype.constructor)
 }
 
+function isDefined (x) {
+  return x != null
+}
+
 module.exports = {
+  isDefined,
   always: x => () => x,
   isConstructor,
   toPairs,
@@ -26,7 +31,7 @@ module.exports = {
     }
 
     return instance =>
-      instance.constructor === Ctor || instance instanceof Ctor
+      isDefined(instance) && (instance.constructor === Ctor || instance instanceof Ctor)
   },
   tryCatch (tryFn, catchFn) {
     return (...args) => {
@@ -45,8 +50,5 @@ module.exports = {
   },
   isFunction (x) {
     return typeof x === 'function'
-  },
-  isDefined (x) {
-    return x != null
   }
 }

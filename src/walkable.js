@@ -1,4 +1,4 @@
-const { isFunction, isDefined } = require('./helpers')
+const { isFunction, isNil } = require('./helpers')
 
 function walk (config, transform, item, path = []) {
   if (config.isLeafe(item)) { return transform(item, path) }
@@ -25,7 +25,7 @@ function isObject (v) {
 }
 
 function isLeafe (x) {
-  return Number.isNaN(x) || !isDefined(x) || isFunction(x) || (!isObject(x) && !isArray(x))
+  return Number.isNaN(x) || isNil(x) || x instanceof RegExp || isFunction(x) || (!isObject(x) && !isArray(x))
 }
 
 function mapLeaves (config, cb, item) {

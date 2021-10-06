@@ -1,16 +1,24 @@
 const { mapLeaves, path, PathError } = require('./walkable')()
 const { isConstructor, isFunction, equals, T, is, tryCatch, isEven, isNil, toPairs, always } = require('./helpers')
 
+const isRegExp = is(RegExp)
+
 const match = pattern => {
   // TODO: also check if something is a constructor
 
+  const normalize = (value, pth) => {
+    if (isRegExp(value)) return arg => value.test(arg)
+
+    if (isConstructor(value)) { return typed(value) }
+
+    if (isFunction(value)) { return arg => value(path(pth, arg)) }
+
+    return arg => equals(path(pth, arg), value)
+  }
+
   const patternPredicates = mapLeaves(
     (value, pth) => tryCatch(
-      isConstructor(value)
-        ? typed(value)
-        : (isFunction(value)
-            ? arg => value(path(pth, arg))
-            : arg => equals(path(pth, arg), value)),
+      normalize(value, pth),
       e => {
         if (e instanceof PathError) { return false }
 
