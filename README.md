@@ -1,5 +1,7 @@
 # Patroon
 
+![Code Coverage](https://img.shields.io/badge/coverage-100%25-green?style=flat-square)
+
 Pattern matching in Javascript without additional syntax.
 
 ## Implementation
@@ -13,9 +15,27 @@ Pattern matching in Javascript without additional syntax.
 3. [./src/helpers.js][4] - You might have noticed that both the patroon and
    walkable modules have common helper functions.
 
+## Installation
+
+```bash
+npm install patroon
+```
+
 ## Specifications
 
 Let's see what valid and less valid uses of patroon are.
+
+### Primitives
+
+The simplest thing one can do is match on a primitive.
+
+```js ./tape-test
+t.equal(patroon(
+  2, 3,
+  1, 2
+)(1), 2)
+t.end()
+```
 
 ### Regular Expressions
 
@@ -96,9 +116,9 @@ const count = patroon(
   [], (array, c=0) => c
 )
 
-t.equals(count([]), 0)
-t.equals(count([1]), 1)
-t.equals(count([1, 2]), 2)
+t.equal(count([]), 0)
+t.equal(count([1]), 1)
+t.equal(count([1, 2]), 2)
 t.end()
 ```
 
@@ -142,10 +162,10 @@ const toPairs = patroon(
   _, (_, p = []) => p
 )
 
-t.deepEquals(toPairs([1]), [])
-t.deepEquals(toPairs([1, 2]), [[1, 2]])
-t.deepEquals(toPairs([1, 2, 3]), [[1, 2]])
-t.deepEquals(toPairs([1, 2, 3, 4]), [[1, 2], [3, 4]])
+t.deepEqual(toPairs([1]), [])
+t.deepEqual(toPairs([1, 2]), [[1, 2]])
+t.deepEqual(toPairs([1, 2, 3]), [[1, 2]])
+t.deepEqual(toPairs([1, 2, 3, 4]), [[1, 2], [3, 4]])
 t.end()
 ```
 
@@ -301,32 +321,48 @@ First make sure the dependencies are clean.
 npm i && npm prune
 ```
 
+We also care about code coverage so we'll use [nyc][8] to generate a coverage
+report.
+
 ```bash bash
-npm test
+npx nyc npm t && npx nyc check-coverage
 ```
 ```
 
-> patroon@0.1.0 test
+> patroon@0.1.1 test
 > tape ./src/index.test.js
 
 TAP version 13
+# Matches on a simple primitive
+ok 1 should be strictly equal
+# Matches using a RegExp
+# Match using reference
+# Matches on type and value
 # Matches always when pattern equals value
 # Matches none of the patterns and throws
-ok 1 should be truthy
+ok 2 should be truthy
 # Does not match when a value does not exist
 # Throws when a typed does not receice a constructor
-ok 2 should be truthy
-# Throws in a predicate function
 ok 3 should be truthy
-# Throws when an uneven amount of arguments are passed
+# Throws in a predicate function
 ok 4 should be truthy
+# Throws when an uneven amount of arguments are passed
+ok 5 should be truthy
 
-1..4
-# tests 4
-# pass  4
+1..5
+# tests 5
+# pass  5
 
 # ok
 
+-------------|---------|----------|---------|---------|-------------------
+File         | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------|---------|----------|---------|---------|-------------------
+All files    |     100 |      100 |     100 |     100 |                   
+ helpers.js  |     100 |      100 |     100 |     100 |                   
+ index.js    |     100 |      100 |     100 |     100 |                   
+ walkable.js |     100 |      100 |     100 |     100 |                   
+-------------|---------|----------|---------|---------|-------------------
 ```
 
 ## Formatting
@@ -345,8 +381,8 @@ This project is mentioned in the following [stackoverflow question][7].
 
 The README.md is generated using [markatzea][6].
 
-```bash bash
-test "$RECUR" -eq 1 || RECUR=1 markatzea README.mz > README.md
+```bash
+markatzea README.mz > README.md
 ```
 
 ## Contribute
@@ -366,4 +402,5 @@ polite. Some suggestions for contributions:
 [4]:https://github.com/bas080/patroon/blob/master/src/helpers.js
 [5]:https://github.com/bas080/patroon/blob/master/src/index.test.js
 [6]:https://github.com/bas080/markatzea
-[7]https://stackoverflow.com/questions/50452844/functional-programming-style-pattern-matching-in-javascript/67376827#67376827
+[7]:https://stackoverflow.com/questions/50452844/functional-programming-style-pattern-matching-in-javascript/67376827#67376827
+[8]:https://github.com/istanbuljs/nyc

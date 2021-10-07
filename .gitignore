@@ -2,3 +2,4 @@ node_modules/
 .lexicon
 .local*
 *.bak
+.nyc_output/
