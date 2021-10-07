@@ -1,6 +1,7 @@
 # Patroon
 
 ![Code Coverage](https://img.shields.io/badge/coverage-100%25-green?style=flat-square)
+![NPM](https://img.shields.io/npm/v/patroon?color=blue&style=flat-square)
 
 Pattern matching in Javascript without additional syntax.
 
@@ -16,6 +17,8 @@ Pattern matching in Javascript without additional syntax.
    walkable modules have common helper functions.
 
 ## Installation
+
+[Patroon][9] is hosted on the NPM repository.
 
 ```bash
 npm install patroon
@@ -329,7 +332,7 @@ npx nyc npm t && npx nyc check-coverage
 ```
 ```
 
-> patroon@0.1.1 test
+> patroon@0.1.2 test
 > tape ./src/index.test.js
 
 TAP version 13
@@ -404,3 +407,4 @@ polite. Some suggestions for contributions:
 [6]:https://github.com/bas080/markatzea
 [7]:https://stackoverflow.com/questions/50452844/functional-programming-style-pattern-matching-in-javascript/67376827#67376827
 [8]:https://github.com/istanbuljs/nyc
+[9]:https://www.npmjs.com/package/patroon
