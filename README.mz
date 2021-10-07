@@ -1,7 +1,7 @@
 # Patroon
 
 ![Code Coverage](https://img.shields.io/badge/coverage-100%25-green?style=flat-square)
-![NPM](https://img.shields.io/npm/v/patroon?color=blue&style=flat-square)
+[![NPM](https://img.shields.io/npm/v/patroon?color=blue&style=flat-square)](https://www.npmjs.com/package/patroon)
 
 Pattern matching in Javascript without additional syntax.
 
