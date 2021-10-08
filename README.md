@@ -1,9 +1,10 @@
 # Patroon
 
-[![100% Code Coverage](https://img.shields.io/badge/coverage-100%25-green?style=flat-square)](#coverage)
 [![NPM](https://img.shields.io/npm/v/patroon?color=blue&style=flat-square)](https://www.npmjs.com/package/patroon)
 [![NPM Downloads](https://img.shields.io/npm/dm/patroon?style=flat-square)](https://www.npmjs.com/package/patroon)
-[![Standard Code Style](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![100% Code Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen?style=flat-square)](#coverage)
+[![Dependency Status](https://img.shields.io/librariesio/release/npm/patroon?style=flat-square)](https://libraries.io/npm/patroon)
+[![Standard Code Style](https://img.shields.io/badge/code_style-standard-brightgreen.svg?style=flat-square)](https://standardjs.com)
 
 Pattern matching in Javascript without additional syntax.
 
@@ -341,7 +342,7 @@ npx nyc npm t | npx tap-nyc
 npx nyc check-coverage
 ```
 ```
-    > patroon@0.1.3 test
+    > patroon@0.1.4 test
     > tape ./src/index.test.js
     -------------|---------|----------|---------|---------|-------------------
     File         | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
@@ -355,7 +356,7 @@ npx nyc check-coverage
   total:     5
   passing:   5
 
-  duration:  1.7s
+  duration:  3.4s
 
 ```
 
