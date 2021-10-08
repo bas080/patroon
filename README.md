@@ -1,7 +1,9 @@
 # Patroon
 
-![Code Coverage](https://img.shields.io/badge/coverage-100%25-green?style=flat-square)
+[![100% Code Coverage](https://img.shields.io/badge/coverage-100%25-green?style=flat-square)](#coverage)
 [![NPM](https://img.shields.io/npm/v/patroon?color=blue&style=flat-square)](https://www.npmjs.com/package/patroon)
+[![NPM Downloads](https://img.shields.io/npm/dm/patroon?style=flat-square)](https://www.npmjs.com/package/patroon)
+[![Standard Code Style](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 Pattern matching in Javascript without additional syntax.
 
@@ -315,57 +317,46 @@ Other more complex helpers like the typed helper are also predicates. See the
 
 ## Tests
 
-Now for some additional edge cases and some generative testing.
-[./src/index.test.js][5]
-
-First make sure the dependencies are clean.
-
-```bash bash &> /dev/null
-npm i && npm prune
-```
+[./src/index.test.js][5] - Contains some tests for edge cases and it defines
+some property based tests.
 
 We also care about code coverage so we'll use [nyc][8] to generate a coverage
 report.
 
+### Coverage
+
 ```bash bash
-npx nyc npm t && npx nyc check-coverage
+set -eo pipefail
+
+# Install and prune dependencies
+{
+  npm i
+  npm prune
+} &> /dev/null
+
+# Run tests and generate a coverage report
+npx nyc npm t | npx tap-nyc
+
+# Test if the coverage is 100%
+npx nyc check-coverage
 ```
 ```
+    > patroon@0.1.3 test
+    > tape ./src/index.test.js
+    -------------|---------|----------|---------|---------|-------------------
+    File         | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+    -------------|---------|----------|---------|---------|-------------------
+    All files    |     100 |      100 |     100 |     100 |                   
+     helpers.js  |     100 |      100 |     100 |     100 |                   
+     index.js    |     100 |      100 |     100 |     100 |                   
+     walkable.js |     100 |      100 |     100 |     100 |                   
+    -------------|---------|----------|---------|---------|-------------------
 
-> patroon@0.1.3 test
-> tape ./src/index.test.js
+  total:     5
+  passing:   5
 
-TAP version 13
-# Matches on a simple primitive
-ok 1 should be strictly equal
-# Matches using a RegExp
-# Match using reference
-# Matches on type and value
-# Matches always when pattern equals value
-# Matches none of the patterns and throws
-ok 2 should be truthy
-# Does not match when a value does not exist
-# Throws when a typed does not receice a constructor
-ok 3 should be truthy
-# Throws in a predicate function
-ok 4 should be truthy
-# Throws when an uneven amount of arguments are passed
-ok 5 should be truthy
+  duration:  1.7s
 
-1..5
-# tests 5
-# pass  5
-
-# ok
-
--------------|---------|----------|---------|---------|-------------------
-File         | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
--------------|---------|----------|---------|---------|-------------------
-All files    |     100 |      100 |     100 |     100 |                   
- helpers.js  |     100 |      100 |     100 |     100 |                   
- index.js    |     100 |      100 |     100 |     100 |                   
- walkable.js |     100 |      100 |     100 |     100 |                   
--------------|---------|----------|---------|---------|-------------------
 ```
 
 ## Formatting
