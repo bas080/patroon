@@ -98,10 +98,10 @@ Some more array examples to wrap your brain around.
 
 ```js ./tape-test
 const arrayMatch = patroon(
-  [1,2], () => 2,
-  [1,2,3], () => 3,
-  [2], () => 1,
-  [], () => null
+  [1,2], 2,
+  [1,2,3], 3,
+  [2], 1,
+  [], null
 )
 
 t.equal(arrayMatch([1,2]), 2)
@@ -332,7 +332,7 @@ npx nyc npm t && npx nyc check-coverage
 ```
 ```
 
-> patroon@0.1.2 test
+> patroon@0.1.3 test
 > tape ./src/index.test.js
 
 TAP version 13
