@@ -6,18 +6,7 @@
 [![Dependency Status](https://img.shields.io/librariesio/release/npm/patroon?style=flat-square)](https://libraries.io/npm/patroon)
 [![Standard Code Style](https://img.shields.io/badge/code_style-standard-brightgreen.svg?style=flat-square)](https://standardjs.com)
 
-Pattern matching in Javascript without additional syntax.
-
-## Implementation
-
-1. [./src/walkable.js][2] - Patroon allows one to define deeply nested
-   patterns. To implement these features succinctly we use an abstraction
-   which allows the traversing of a tree. This is an area of computer science
-   named [tree traversal][1].
-2. [./src/index.js][3] - We now take the walkable utility and implement
-   patroon's functionality.
-3. [./src/helpers.js][4] - You might have noticed that both the patroon and
-   walkable modules have common helper functions.
+Pattern matching in JavaScript without additional syntax.
 
 ## Installation
 
@@ -27,124 +16,212 @@ Pattern matching in Javascript without additional syntax.
 npm install patroon
 ```
 
-## Specifications
+## Usage
 
 Let's see what valid and less valid uses of patroon are.
 
 ### Primitives
 
-The simplest thing one can do is match on a primitive.
+The simplest thing one can do is to match on a [primitive][1].
+
+Numbers:
 
 ```js ./tape-test
-t.equal(patroon(
+patroon(
   2, 3,
   1, 2
-)(1), 2)
-t.end()
+)(1)
+```
+
+Strings:
+
+```js ./tape-test
+patroon(
+  'a', 'b',
+  'c', 'd'
+)('c')
+```
+
+Booleans:
+
+```js ./tape-test
+patroon(
+  true, false,
+  false, true
+)(true)
+```
+
+Symbols:
+
+```js ./tape-test
+const a = Symbol('a')
+const b = Symbol('b')
+const c = Symbol('c')
+
+patroon(
+  a, b,
+  b, c
+)(b)
+```
+
+Nil values:
+
+```js ./tape-test
+patroon(
+  null, undefined,
+  undefined, null,
+)(undefined)
 ```
 
 ### Regular Expressions
 
-Will check if a Regex matches the passed string using the `.test` method.
+Will check if a Regex matches the passed string using the string's `.test`
+method.
 
 ```js ./tape-test
 patroon(
-  /^bunion/, fail,
-  /^banana/,end
+  /^bunion/, 'string starts with bunion',
+  /^banana/, 'string starts with banana'
 )('banana tree')
 ```
 
-### Arrays
+### Placeholders
 
-A less intuitive case (at least initially) is the matching with an empty array.
-
-```js ./tape-test
-patroon(
-  [], end,
-  [1], fail
-)([1])
-```
-
-Notice that the empty array matches with `[1]`. This is because the empty array
-is a subset of `[1]`.
-
-You might as well write the following for readability sake:
+The `_` is a placeholder/wildcard value that is useful to implement a default case.
 
 ```js ./tape-test
 patroon(
-  typed(Array), end,
-)([1])
+  1, 'value is 1',
+  'a', 'value is a',
+  _, 'value is something else'
+)(true)
 ```
 
-Patroon tries to determine if something is a constructor. No need to use typed
-for this case.
+We can combine the `_` with other patroon features.
+
+### Objects
+
+Patroon can help you match **objects** that follow a certain spec.
 
 ```js ./tape-test
 patroon(
-  Number, fail,
-  Array, end,
-)([1])
+  {b: _}, 'has an "a" property',
+  {a: _}, 'has a "b" property'
+)({b: 2})
 ```
+
+Next we also match on the key's value.
+
+```js ./tape-test
+patroon(
+  {a: 1}, 'a is 1',
+  {a: 2}, 'a is 2',
+  {a: 3}, 'a is 3'
+)({a: 2})
+```
+
+What about nested objects?
+
+```js ./tape-test
+patroon(
+  {a: {a: 1}}, 'a.a is 1',
+  {a: {a: 2}}, 'a.a is 2',
+  {a: {a: 3}}, 'a.a is 3'
+)({a: {a: 2}})
+```
+
+### Types
+
+Sometimes it's nice to know if the value is of a certain type. We'll use the
+builtin node error constructors in this example.
+
+```js ./tape-test
+patroon(
+  TypeError, 'is a type error',
+  Error, 'is an error'
+)(new Error())
+```
+
+Patroon uses `instanceof` to match on types.
+
+```js ./tape-test
+new TypeError() instanceof Error
+```
+
+Because of this you can match a TypeError with an Error.
+
+```js ./tape-test
+patroon(
+  Error, 'matches on error',
+  TypeError, 'matches on type error'
+)(new TypeError())
+```
+
+An object of a certain type might also have values we would want to match on.
+Here you should use the typed helper.
+
+Simply pass a pattern as the second argument of typed.
+
+```js ./tape-test
+patroon(
+  typed(TypeError, { value: 20 }), 'type error where value is 20',
+  typed(Error, { value: 30 }), 'error where value is 30',
+  typed(Error, { value: 20 }), 'error where value is 20'
+)(Object.assign(new TypeError(), { value: 20 }))
+```
+
+Matching on an object type can be written in several ways.
+
+```js ./tape-test > /dev/null
+patroon({}, 'is object')({})
+patroon(Object, 'is object')({})
+patroon(typed(Object), 'is object')({})
+```
+
+These are all equivalent.
+
+Arrays can also be matched in a similar way.
+
+```js ./tape-test
+patroon([], 'is array')([]),
+patroon(Array, 'is array')([]),
+patroon(typed(Array), 'is array')([])
+```
+
+### Reference
 
 If you wish to match on the reference of a constructor you can use the `ref`
 helper.
 
 ```js ./tape-test
 patroon(
-  1, fail,
-  Number, fail,
-  ref(Number), end,
+  1, 'is 1',
+  Number, 'is a number',
+  ref(Number), 'is the Number constructor',
 )(Number)
 ```
 
-Some more array examples to wrap your brain around.
+### Arrays
 
 ```js ./tape-test
-const arrayMatch = patroon(
-  [1,2], 2,
-  [1,2,3], 3,
-  [2], 1,
-  [], null
-)
-
-t.equal(arrayMatch([1,2]), 2)
-t.equal(arrayMatch([1,2,3]), 2)
-t.equal(arrayMatch([]), null)
-t.equal(arrayMatch([2, 3]), 1)
-t.end()
+patroon(
+  [], 'is an array',
+)([1, 2, 3])
 ```
-
-How to define default argument values:
 
 ```js ./tape-test
-const count = patroon(
-  [_], ([, ...xs], n=0) => count(xs, n + 1),
-  [], (array, c=0) => c
-)
-
-t.equal(count([]), 0)
-t.equal(count([1]), 1)
-t.equal(count([1, 2]), 2)
-t.end()
+patroon(
+  [1], 'is an array that starts with 1',
+  [1,2], 'is an array that starts with 1 and 2',
+  [], 'is an array',
+)([1, 2])
 ```
 
-The array pattern assumes that the array has rest elements. It's a design
-choice which avoids adding additional helpers with little to no downsides.
+> Think of patterns as a subset of the value you are trying to match. In the
+> case of arrays. `[1,2]` is a subset of `[1,2,3]`. `[2,3]` is not a subset of
+> `[1,2,3]` because arrays also care about the order of elements.
 
-In case the seemingly unexpected case seems truly unexpected; I suggest you
-think of patterns as a subset of the value you are trying to match. In the case
-of arrays. `[1,2]` is a subset of `[1,2,3]`. `[2,3]` is not a subset of
-`[1,2,3]` because arrays also care about the order of elements.
-
-Now is a good time to introduce the placeholder(`_`) concept.
-
-### Placeholders
-
-```js ./tape-test
-const alwaysMatches = patroon(_, t.end())('any value really')
-```
-
-A function that looks for a certain pattern in an array.
+A function that looks for a certain pattern in an array:
 
 ```js ./tape-test
 const containsPattern = patroon(
@@ -153,11 +230,7 @@ const containsPattern = patroon(
   [], false
 )
 
-t.true(containsPattern([0,0]))
-t.true(containsPattern([1,0,0]))
-t.false(containsPattern([1,0,1]))
-t.true(containsPattern([1,0,1,0,0]))
-t.end()
+containsPattern([1,0,1,0,0])
 ```
 
 A toPairs function:
@@ -168,139 +241,44 @@ const toPairs = patroon(
   _, (_, p = []) => p
 )
 
-t.deepEqual(toPairs([1]), [])
-t.deepEqual(toPairs([1, 2]), [[1, 2]])
-t.deepEqual(toPairs([1, 2, 3]), [[1, 2]])
-t.deepEqual(toPairs([1, 2, 3, 4]), [[1, 2], [3, 4]])
-t.end()
+toPairs([1, 2, 3, 4])
+toPairs([1, 2, 3, 4])
 ```
 
 > An exercise would be to change toPairs to throw when an uneven length array
 > is passed. Multiple answers are possible and some are more optimized than
 > others.
 
-So that's arrays. What about objects.
-
-### Objects
-
-Just like an empty array; matching on an empty object can be written in three
-ways.
-
-```js ./tape-test
-patroon(
-  {}, pass,
-)({a: 1})
-
-patroon(
-  typed(Object), pass,
-)({a: 1})
-
-patroon(
-  Object, end,
-)({a: 1})
-```
-
-Next we match on the existence of object keys. We use the `_` to
-achieve this.
-
-```js ./tape-test
-patroon(
-  {a: _}, end
-)({a: 2})
-```
-
-Next we also match on the key's value.
-
-```js ./tape-test
-patroon(
-  {a: 1}, fail,
-  {a: 2}, end,
-  {a: 3}, fail
-)({a: 2})
-```
-
-What about nested objects? No problem!
-
-```js ./tape-test
-patroon(
-  {a: {a: 1}}, fail,
-  {a: {a: 2}}, end,
-  {a: {a: 3}}, fail
-)({a: {a: 2}})
-```
-
-### Types
-
-We'll match on type using `typed` which internally uses `instanceof`.
-
-
-```js ./tape-test
-patroon(
-  typed(TypeError), fail,
-  typed(Error), pass
-)(new Error())
-
-patroon(
-  TypeError, end,
-  Error, fail
-)(new TypeError())
-```
-
-An object of a certain type might also have values we would want to match on.
-Here you do need to use the typed helper.
-
-```js ./tape-test
-patroon(
-  typed(TypeError, { value: 20 }), fail,
-  typed(Error, { value: 30 }), fail,
-  typed(Error, { value: 20 }), end
-)(Object.assign(new Error(), { value: 20 }))
-```
-
-Simply pass a pattern as the second argument of typed.
-
-Now we'll try predicates.
-
 ### Predicates
 
 By default a function is assumed to be a predicate.
+
+See the [reference][#reference] section if you wish to match on the reference of the function.
 
 ```js ./tape-test
 const isTrue = v => v === true
 
 patroon(
-  isTrue, end
+  isTrue, 'is true'
 )(true)
-```
-
-You might have a case where you want to match on the reference of a function.
-Some people are weird like that. In that case one can use the ref helper.
-
-```js ./tape-test
-const fun = () => false
-
-patroon(
-  fun, fail,
-  ref(fun), end
-)(fun)
 ```
 
 Could one combine predicates with arrays and objects? Sure one can!
 
 ```js ./tape-test
-const is20 = v => v === 20
+const gt20 = v => v > 20
 
 patroon(
-  [[is20]], end,
-)([[20]])
+  [[gt20]], 'is greater than 20'
+)([[21]])
 ```
 
 ```js ./tape-test
-const is42 = v => v === 42
+const gt42 = v => v > 42
 
 patroon(
-  [{a: is42}], end,
-)([{a: 42}])
+  [{a: gt42}], 'is greater than 42'
+)([{a: 43}])
 ```
 
 ### Custom Helpers
@@ -342,43 +320,17 @@ npx nyc npm t | npx tap-nyc
 npx nyc check-coverage
 ```
 
-## Formatting
+## StackOverflow
 
-Standard is good enough.
-
-```bash bash 2>&1
-npx standard || npx standard --fix
-```
-
-## Stackoverflow
-
-This project is mentioned in the following [stackoverflow question][7].
-
-## Documentation
-
-The README.md is generated using [markatzea][6].
-
-```bash
-markatzea README.mz > README.md
-```
+This project is mentioned in the following [StackOverflow question][7].
 
 ## Contribute
 
 You may contribute in whatever manner you see fit. Do try to be helpful and
-polite. Some suggestions for contributions:
+polite and read the [CONTRIBUTING.md][10].
 
-- [ ] A fitting logo.
-- [ ] Find and report bugs and inconsistencies.
-- [ ] Improve documentation.
-- [ ] Prevent exceeding stack size by managing recursive patterns.
-- [ ] Suggest API improvements in naming and functionality.
-
-[1]:https://en.wikipedia.org/wiki/Tree_traversal
-[2]:https://github.com/bas080/patroon/blob/master/src/walkable.js
-[3]:https://github.com/bas080/patroon/blob/master/src/index.js
-[4]:https://github.com/bas080/patroon/blob/master/src/helpers.js
-[5]:https://github.com/bas080/patroon/blob/master/src/index.test.js
-[6]:https://github.com/bas080/markatzea
 [7]:https://stackoverflow.com/questions/50452844/functional-programming-style-pattern-matching-in-javascript/67376827#67376827
 [8]:https://github.com/istanbuljs/nyc
 [9]:https://www.npmjs.com/package/patroon
+[10]:./CONTRIBUTING.md
+[1]:https://developer.mozilla.org/en-US/docs/Glossary/Primitive
