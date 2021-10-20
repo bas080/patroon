@@ -310,10 +310,21 @@ const oneIsTwo = patroon(1, 2)
 oneIsTwo(3)
 ```
 
+#### UnevenArgumentCountError
+
 Another error that occurs is when the patroon function is not used correctly.
 
 ```js { ./tape-test 2>&1 || true; } | head -n 6
 patroon(1)
+```
+
+#### PatroonError
+
+All error patroon produces can be matched against the PatroonError using `instanceof`.
+
+```js
+assert.equal(new NoMatchError() instanceof PatroonError, true)
+assert.equal(new UnevenArgumentCountError() instanceof PatroonError, true)
 ```
 
 ## Tests

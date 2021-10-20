@@ -22,7 +22,7 @@ const match = pattern => {
       e => {
         if (e instanceof PathError) { return false }
 
-        throw e // How to test this case?
+        throw e
       }
     ),
     pattern
@@ -31,16 +31,22 @@ const match = pattern => {
   return (...args) => patternPredicates.every(pred => pred(...args))
 }
 
-class NoMatchError extends Error {
-  constructor (...args) {
-    super(...args)
-    this.name = 'NoMatchError'
-  }
-}
+class PatroonError extends Error { }
+class UnevenArgumentCountError extends PatroonError {}
+class NoMatchError extends PatroonError {}
+
+[
+  PatroonError,
+  UnevenArgumentCountError,
+  NoMatchError
+].forEach(e => {
+  e.prototype.name = e.name
+})
+
 const toFunction = x => isFunction(x) ? x : always(x)
 
 const patroon = (...list) => {
-  if (!isEven(list.length)) { throw new TypeError('Patroon should have even amount of arguments.') }
+  if (!isEven(list.length)) { throw new UnevenArgumentCountError('Patroon should have an even amount of arguments.') }
 
   const patterns = toPairs(list).map(([pattern, doFn]) => [match(pattern), toFunction(doFn)])
 
@@ -73,6 +79,8 @@ function ref (fn) {
 
 module.exports = Object.assign(patroon, {
   NoMatchError,
+  UnevenArgumentCountError,
+  PatroonError,
   patroon,
   ref,
   _: T,

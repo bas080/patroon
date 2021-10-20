@@ -15,7 +15,7 @@
 
 Standard is good enough.
 
-```bash bash 2>&1
+```bash bash 1>&2
 npx standard || npx standard --fix
 ```
 

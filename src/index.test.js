@@ -5,6 +5,7 @@ const {
   patroon,
   typed,
   NoMatchError,
+  UnevenArgumentCountError,
   _
 } = require('./index')
 
@@ -64,31 +65,21 @@ test('Does not match when a value does not exist', t => {
 })
 
 test('Throws when a typed does not receice a constructor', t => {
-  try {
-    console.log('XXX', typed(20))
-    typed(20)
-  } catch (e) {
-    t.ok(e instanceof Error)
-    t.end()
-  }
+  t.plan(1)
+  t.throws(() => typed(20), Error)
 })
 
 test('Throws in a predicate function', t => {
-  try {
-    patroon(
-      () => { throw new TypeError() }, () => {}
-    )()
-  } catch (e) {
-    t.ok(e instanceof TypeError)
-    t.end()
-  }
+  class SomeError extends Error { }
+
+  t.plan(1)
+  t.throws(
+    () => patroon(() => { throw new SomeError() }, () => {})(),
+    SomeError
+  )
 })
 
 test('Throws when an uneven amount of arguments are passed', t => {
-  try {
-    patroon(1)
-  } catch (e) {
-    t.ok(e instanceof TypeError)
-    t.end()
-  }
+  t.plan(1)
+  t.throws(() => patroon(1), UnevenArgumentCountError)
 })

@@ -393,13 +393,15 @@ const oneIsTwo = patroon(1, 2)
 oneIsTwo(3)
 ```
 ```
-/home/ant/projects/patroon/src/index.js:50
+/home/ant/projects/patroon/src/index.js:56
     if (isNil(found)) { throw new NoMatchError(`Not able to match any pattern for value ${JSON.stringify(args)}`) }
                         ^
 
 NoMatchError: Not able to match any pattern for value [3]
-    at /home/ant/projects/patroon/src/index.js:50:31
+    at /home/ant/projects/patroon/src/index.js:56:31
 ```
+
+#### UnevenArgumentCountError
 
 Another error that occurs is when the patroon function is not used correctly.
 
@@ -407,12 +409,21 @@ Another error that occurs is when the patroon function is not used correctly.
 patroon(1)
 ```
 ```
-/home/ant/projects/patroon/src/index.js:43
-  if (!isEven(list.length)) { throw new TypeError('Patroon should have even amount of arguments.') }
+/home/ant/projects/patroon/src/index.js:49
+  if (!isEven(list.length)) { throw new UnevenArgumentCountError('Patroon should have an even amount of arguments.') }
                               ^
 
-TypeError: Patroon should have even amount of arguments.
-    at patroon (/home/ant/projects/patroon/src/index.js:43:37)
+UnevenArgumentCountError: Patroon should have an even amount of arguments.
+    at patroon (/home/ant/projects/patroon/src/index.js:49:37)
+```
+
+#### PatroonError
+
+All error patroon produces can be matched against the PatroonError using `instanceof`.
+
+```js
+assert.equal(new NoMatchError() instanceof PatroonError, true)
+assert.equal(new UnevenArgumentCountError() instanceof PatroonError, true)
 ```
 
 ## Tests
@@ -453,7 +464,7 @@ npx nyc check-coverage
   total:     5
   passing:   5
 
-  duration:  929ms
+  duration:  95ms
 
 ```
 
