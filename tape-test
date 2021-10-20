@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 
 cat <(echo '
-const assert = require("assert")
 const {
   _,
   typed,
   ref,
   patroon,
-  NoMatchError
+  NoMatchError,
+  UnevenArgumentCountError,
+  PatroonError
 } = require("./src/index")
 
 

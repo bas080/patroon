@@ -419,11 +419,16 @@ UnevenArgumentCountError: Patroon should have an even amount of arguments.
 
 #### PatroonError
 
-All error patroon produces can be matched against the PatroonError using `instanceof`.
+All errors patroon produces can be matched against the PatroonError using `instanceof`.
 
-```js
-assert.equal(new NoMatchError() instanceof PatroonError, true)
-assert.equal(new UnevenArgumentCountError() instanceof PatroonError, true)
+```js ./tape-test
+const isPatroonError = patroon(PatroonError, 'patroon is causing an error')
+
+isPatroonError(new NoMatchError())
+isPatroonError(new UnevenArgumentCountError())
+```
+```
+patroon is causing an error
 ```
 
 ## Tests
@@ -445,7 +450,7 @@ npx nyc npm t | npx tap-nyc
 npx nyc check-coverage
 ```
 ```
-    > patroon@0.1.5 test
+    > patroon@0.2.0 test
     > tape ./src/index.test.js
     -------------|---------|----------|---------|---------|-------------------
     File         | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
@@ -459,7 +464,7 @@ npx nyc check-coverage
   total:     5
   passing:   5
 
-  duration:  2.2s
+  duration:  7ms
 
 ```
 
