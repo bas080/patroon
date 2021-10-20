@@ -25,5 +25,17 @@
     "tape": "^5.1.1",
     "tape-check": "^1.0.0-rc.0",
     "testcheck": "^1.0.0-rc.2"
-  }
+  },
+  "contributors": [
+    {
+      "name": "Bassim Huis",
+      "email": "bassimhuis@gmail.com",
+      "url": "https://github.com/bas080"
+    },
+    {
+      "name": "Scott Sauyet",
+      "email": "scott.sauyet@gmail.com",
+      "url": "http://scott.sauyet.com"
+    }
+  ]
 }
