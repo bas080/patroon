@@ -434,14 +434,9 @@ some property based tests.
 We also care about code coverage so we'll use [nyc][8] to generate a coverage
 report.
 
-```bash bash
-set -eo pipefail
-
+```bash bash -eo pipefail
 # Install and prune dependencies
-{
-  npm i
-  npm prune
-} &> /dev/null
+{ npm i && npm prune; } &> /dev/null
 
 # Run tests and generate a coverage report
 npx nyc npm t | npx tap-nyc
@@ -464,7 +459,7 @@ npx nyc check-coverage
   total:     5
   passing:   5
 
-  duration:  95ms
+  duration:  2.2s
 
 ```
 
