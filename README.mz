@@ -253,7 +253,7 @@ toPairs([1, 2, 3, 4])
 
 By default a function is assumed to be a predicate.
 
-See the [reference][#reference] section if you wish to match on the reference
+See the [references](#references) section if you wish to match on the reference
 of the function.
 
 ```js ./tape-test
@@ -353,8 +353,10 @@ npx nyc check-coverage
 You may contribute in whatever manner you see fit. Do try to be helpful and
 polite and read the [CONTRIBUTING.md][10].
 
+[3]:https://github.com/bas080/patroon/blob/master/src/index.js
 [7]:https://stackoverflow.com/questions/50452844/functional-programming-style-pattern-matching-in-javascript/67376827#67376827
 [8]:https://github.com/istanbuljs/nyc
+[5]:./src/index.test.js
 [9]:https://www.npmjs.com/package/patroon
 [10]:./CONTRIBUTING.md
 [1]:https://developer.mozilla.org/en-US/docs/Glossary/Primitive
