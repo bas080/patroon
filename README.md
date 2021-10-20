@@ -22,6 +22,9 @@ Pattern matching in JavaScript without additional syntax.
   * [Predicates](#predicates)
   * [Custom Helpers](#custom-helpers)
   * [Errors](#errors)
+    + [NoMatchError](#nomatcherror)
+    + [UnevenArgumentCountError](#unevenargumentcounterror)
+    + [PatroonError](#patroonerror)
 - [Tests](#tests)
 - [Contribute](#contribute)
 
@@ -464,7 +467,7 @@ npx nyc check-coverage
   total:     5
   passing:   5
 
-  duration:  7ms
+  duration:  1.1s
 
 ```
 
