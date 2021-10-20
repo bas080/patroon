@@ -5,6 +5,7 @@
 [![100% Code Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen?style=flat-square)](#tests)
 [![Dependency Status](https://img.shields.io/librariesio/release/npm/patroon?style=flat-square)](https://libraries.io/npm/patroon)
 [![Standard Code Style](https://img.shields.io/badge/code_style-standard-brightgreen.svg?style=flat-square)](https://standardjs.com)
+[![License](https://img.shields.io/npm/l/patroon?color=brightgreen&style=flat-square)](./LICENSE)
 
 Pattern matching in JavaScript without additional syntax.
 
@@ -467,7 +468,7 @@ npx nyc check-coverage
   total:     5
   passing:   5
 
-  duration:  1.1s
+  duration:  37ms
 
 ```
 
