@@ -126,12 +126,12 @@ Patroon can help you match **objects** that follow a certain spec.
 
 ```js ./tape-test
 patroon(
-  {b: _}, 'has an "a" property',
-  {a: _}, 'has a "b" property'
+  {b: _}, 'has a "b" property',
+  {a: _}, 'has an "a" property'
 )({b: 2})
 ```
 ```
-has an "a" property
+has a "b" property
 ```
 
 Next we also match on the key's value.
@@ -224,13 +224,10 @@ These are all equivalent.
 
 Arrays can also be matched in a similar way.
 
-```js ./tape-test
+```js ./tape-test > /dev/null
 patroon([], 'is array')([]),
 patroon(Array, 'is array')([]),
 patroon(typed(Array), 'is array')([])
-```
-```
-is array
 ```
 
 ### Reference
@@ -240,13 +237,12 @@ helper.
 
 ```js ./tape-test
 patroon(
-  1, 'is 1',
-  Number, 'is a number',
-  ref(Number), 'is the Number constructor',
-)(Number)
+  Error, 'is an instance of Error',
+  ref(Error), 'is the Error constructor'
+)(Error)
 ```
 ```
-is the Number constructor
+is the Error constructor
 ```
 
 ### Arrays
@@ -299,7 +295,6 @@ const toPairs = patroon(
 )
 
 toPairs([1, 2, 3, 4])
-toPairs([1, 2, 3, 4])
 ```
 ```
 [ [ 1, 2 ], [ 3, 4 ] ]
@@ -313,7 +308,8 @@ toPairs([1, 2, 3, 4])
 
 By default a function is assumed to be a predicate.
 
-See the [reference][#reference] section if you wish to match on the reference of the function.
+See the [reference][#reference] section if you wish to match on the reference
+of the function.
 
 ```js ./tape-test
 const isTrue = v => v === true
@@ -363,6 +359,43 @@ const _ = () => true
 Other more complex helpers like the typed helper are also predicates. See the
 [./src/index.js][3] if you are interested in their implementation.
 
+### Errors
+
+Patroon has errors that occur during runtime and when a patroon function is
+created. It's important to know when they occur.
+
+#### NoMatchError
+
+The no match error occurs when none of the patterns match the value.
+
+```js { ./tape-test 2>&1 || true; } | head -n 6
+const oneIsTwo = patroon(1, 2)
+
+oneIsTwo(3)
+```
+```
+/home/ant/projects/patroon/src/index.js:50
+    if (isNil(found)) { throw new NoMatchError(`Not able to match any pattern for value ${JSON.stringify(args)}`) }
+                        ^
+
+NoMatchError: Not able to match any pattern for value [3]
+    at /home/ant/projects/patroon/src/index.js:50:31
+```
+
+Another error that occurs is when the patroon function is not used correctly.
+
+```js { ./tape-test 2>&1 || true; } | head -n 6
+patroon(1)
+```
+```
+/home/ant/projects/patroon/src/index.js:43
+  if (!isEven(list.length)) { throw new TypeError('Patroon should have even amount of arguments.') }
+                              ^
+
+TypeError: Patroon should have even amount of arguments.
+    at patroon (/home/ant/projects/patroon/src/index.js:43:37)
+```
+
 ## Tests
 
 [./src/index.test.js][5] - Contains some tests for edge cases and it defines
@@ -389,7 +422,7 @@ npx nyc npm t | npx tap-nyc
 npx nyc check-coverage
 ```
 ```
-    > patroon@0.1.4 test
+    > patroon@0.1.5 test
     > tape ./src/index.test.js
     -------------|---------|----------|---------|---------|-------------------
     File         | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
@@ -403,7 +436,7 @@ npx nyc check-coverage
   total:     5
   passing:   5
 
-  duration:  1s
+  duration:  996ms
 
 ```
 

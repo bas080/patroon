@@ -105,8 +105,8 @@ Patroon can help you match **objects** that follow a certain spec.
 
 ```js ./tape-test
 patroon(
-  {b: _}, 'has an "a" property',
-  {a: _}, 'has a "b" property'
+  {b: _}, 'has a "b" property',
+  {a: _}, 'has an "a" property'
 )({b: 2})
 ```
 
@@ -182,7 +182,7 @@ These are all equivalent.
 
 Arrays can also be matched in a similar way.
 
-```js ./tape-test
+```js ./tape-test > /dev/null
 patroon([], 'is array')([]),
 patroon(Array, 'is array')([]),
 patroon(typed(Array), 'is array')([])
@@ -195,10 +195,9 @@ helper.
 
 ```js ./tape-test
 patroon(
-  1, 'is 1',
-  Number, 'is a number',
-  ref(Number), 'is the Number constructor',
-)(Number)
+  Error, 'is an instance of Error',
+  ref(Error), 'is the Error constructor'
+)(Error)
 ```
 
 ### Arrays
@@ -242,7 +241,6 @@ const toPairs = patroon(
 )
 
 toPairs([1, 2, 3, 4])
-toPairs([1, 2, 3, 4])
 ```
 
 > An exercise would be to change toPairs to throw when an uneven length array
@@ -253,7 +251,8 @@ toPairs([1, 2, 3, 4])
 
 By default a function is assumed to be a predicate.
 
-See the [reference][#reference] section if you wish to match on the reference of the function.
+See the [reference][#reference] section if you wish to match on the reference
+of the function.
 
 ```js ./tape-test
 const isTrue = v => v === true
@@ -293,6 +292,27 @@ const _ = () => true
 
 Other more complex helpers like the typed helper are also predicates. See the
 [./src/index.js][3] if you are interested in their implementation.
+
+### Errors
+
+Patroon has errors that occur during runtime and when a patroon function is
+created. It's important to know when they occur.
+
+#### NoMatchError
+
+The no match error occurs when none of the patterns match the value.
+
+```js { ./tape-test 2>&1 || true; } | head -n 6
+const oneIsTwo = patroon(1, 2)
+
+oneIsTwo(3)
+```
+
+Another error that occurs is when the patroon function is not used correctly.
+
+```js { ./tape-test 2>&1 || true; } | head -n 6
+patroon(1)
+```
 
 ## Tests
 
