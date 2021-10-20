@@ -2,11 +2,30 @@
 
 [![NPM](https://img.shields.io/npm/v/patroon?color=blue&style=flat-square)](https://www.npmjs.com/package/patroon)
 [![NPM Downloads](https://img.shields.io/npm/dm/patroon?style=flat-square)](https://www.npmjs.com/package/patroon)
-[![100% Code Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen?style=flat-square)](#coverage)
+[![100% Code Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen?style=flat-square)](#tests)
 [![Dependency Status](https://img.shields.io/librariesio/release/npm/patroon?style=flat-square)](https://libraries.io/npm/patroon)
 [![Standard Code Style](https://img.shields.io/badge/code_style-standard-brightgreen.svg?style=flat-square)](https://standardjs.com)
 
 Pattern matching in JavaScript without additional syntax.
+
+<!-- toc -->
+
+- [Installation](#installation)
+- [Usage](#usage)
+  * [Primitives](#primitives)
+  * [Regular Expressions](#regular-expressions)
+  * [Placeholders](#placeholders)
+  * [Objects](#objects)
+  * [Types](#types)
+  * [References](#references)
+  * [Arrays](#arrays)
+  * [Predicates](#predicates)
+  * [Custom Helpers](#custom-helpers)
+  * [Errors](#errors)
+- [Tests](#tests)
+- [Contribute](#contribute)
+
+<!-- tocstop -->
 
 ## Installation
 
@@ -230,7 +249,7 @@ patroon(Array, 'is array')([]),
 patroon(typed(Array), 'is array')([])
 ```
 
-### Reference
+### References
 
 If you wish to match on the reference of a constructor you can use the `ref`
 helper.
@@ -404,8 +423,6 @@ some property based tests.
 We also care about code coverage so we'll use [nyc][8] to generate a coverage
 report.
 
-### Coverage
-
 ```bash bash
 set -eo pipefail
 
@@ -436,13 +453,9 @@ npx nyc check-coverage
   total:     5
   passing:   5
 
-  duration:  996ms
+  duration:  929ms
 
 ```
-
-## StackOverflow
-
-This project is mentioned in the following [StackOverflow question][7].
 
 ## Contribute
 
