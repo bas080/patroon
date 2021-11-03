@@ -23,7 +23,7 @@ npm install patroon
 
 Let's see what valid and less valid uses of patroon are.
 
-### Primitives
+### Primitive
 
 The simplest thing one can do is to match on a [primitive][1].
 
@@ -76,7 +76,7 @@ patroon(
 )(undefined)
 ```
 
-### Regular Expressions
+### Regular Expression
 
 Will check if a Regex matches the passed string using the string's `.test`
 method.
@@ -88,7 +88,7 @@ patroon(
 )('banana tree')
 ```
 
-### Placeholders
+### Placeholder
 
 The `_` is a placeholder/wildcard value that is useful to implement a default case.
 
@@ -102,7 +102,7 @@ patroon(
 
 We can combine the `_` with other patroon features.
 
-### Objects
+### Object
 
 Patroon can help you match **objects** that follow a certain spec.
 
@@ -133,7 +133,7 @@ patroon(
 )({a: {a: 2}})
 ```
 
-### Types
+### Instance
 
 Sometimes it's nice to know if the value is of a certain type. We'll use the
 builtin node error constructors in this example.
@@ -161,15 +161,13 @@ patroon(
 ```
 
 An object of a certain type might also have values we would want to match on.
-Here you should use the typed helper.
-
-Simply pass a pattern as the second argument of typed.
+Here you should use the every helper.
 
 ```js ./tape-test
 patroon(
-  typed(TypeError, { value: 20 }), 'type error where value is 20',
-  typed(Error, { value: 30 }), 'error where value is 30',
-  typed(Error, { value: 20 }), 'error where value is 20'
+  every(TypeError, { value: 20 }), 'type error where value is 20',
+  every(Error, { value: 30 }), 'error where value is 30',
+  every(Error, { value: 20 }), 'error where value is 20'
 )(Object.assign(new TypeError(), { value: 20 }))
 ```
 
@@ -178,7 +176,6 @@ Matching on an object type can be written in several ways.
 ```js ./tape-test > /dev/null
 patroon({}, 'is object')({})
 patroon(Object, 'is object')({})
-patroon(typed(Object), 'is object')({})
 ```
 
 These are all equivalent.
@@ -186,12 +183,12 @@ These are all equivalent.
 Arrays can also be matched in a similar way.
 
 ```js ./tape-test > /dev/null
-patroon([], 'is array')([]),
-patroon(Array, 'is array')([]),
-patroon(typed(Array), 'is array')([])
+patroon([], 'is array')([])
+patroon(Array, 'is array')([])
 ```
 
-### References
+
+### Reference
 
 If you wish to match on the reference of a constructor you can use the `ref`
 helper.
@@ -199,11 +196,11 @@ helper.
 ```js ./tape-test
 patroon(
   Error, 'is an instance of Error',
-  ref(Error), 'is the Error constructor'
+  reference(Error), 'is the Error constructor'
 )(Error)
 ```
 
-### Arrays
+### Array
 
 ```js ./tape-test
 patroon(
@@ -222,6 +219,19 @@ patroon(
 > Think of patterns as a subset of the value you are trying to match. In the
 > case of arrays. `[1,2]` is a subset of `[1,2,3]`. `[2,3]` is not a subset of
 > `[1,2,3]` because arrays also care about the order of elements.
+
+We can also use an object pattern to match certain indexes. The same can be
+written using an array pattern and the `_`. The array pattern can become a bit
+verbose when wanting to match on a bigger index.
+
+These two patterns are equivalent:
+
+```js ./tape-test
+patroon(
+  {6: 7}, 'Index 6 has value 7',
+  [_, _, _, _, _, _, 7], 'Index 6 has value 7'
+)([1, 2, 3, 4, 5, 6, 7])
+```
 
 A function that looks for a certain pattern in an array:
 
@@ -250,7 +260,44 @@ toPairs([1, 2, 3, 4])
 > is passed. Multiple answers are possible and some are more optimized than
 > others.
 
-### Predicates
+### Every
+
+A helper that makes it easy to check if a value passes all patterns.
+
+```js ./tape-test
+const gte200 = x => x >= 200
+const lt300 = x => x < 300
+
+patroon(
+  every(gte200, lt300), 'Is a 200 status code'
+)(200)
+```
+
+### Some
+
+A helper to check if any of the pattern matches value.
+
+```js ./tape-test
+const isMovedResponse = patroon(
+  {statusCode: some(301, 302, 307, 308)}, true,
+  _, false
+)
+
+isMovedResponse({statusCode: 301})
+```
+
+### Multi
+
+Patroon offers the `multi` function in order to match on the value of another
+argument than the first one. This is named [multiple dispatch][2].
+
+```js ./tape-test
+  patroon(
+    multi(1, 2, 3), 'arguments are 1, 2 and 3'
+  )(1, 2, 3)
+```
+
+### Predicate
 
 By default a function is assumed to be a predicate.
 
@@ -283,18 +330,24 @@ patroon(
 )([{a: 43}])
 ```
 
-### Custom Helpers
+### Custom Helper
 
 It is very easy to write your own helpers. All the builtin helpers are really
 just predicates. Let's look at the source of one of these helpers, the simplest
 one being the `_` helper.
 
-```js
-const _ = () => true
+```js ./tape-test
+_.toString()
 ```
 
-Other more complex helpers like the typed helper are also predicates. See the
-[./src/index.js][3] if you are interested in their implementation.
+Other more complex helpers like the `every` or `some` helper are also
+predicates.
+
+```js ./tape-test
+every.toString()
+```
+
+See the [./src/index.js][3] if you are interested in the implementation.
 
 ### Errors
 
@@ -354,10 +407,11 @@ npx nyc check-coverage
 You may contribute in whatever manner you see fit. Do try to be helpful and
 polite and read the [CONTRIBUTING.md][10].
 
+[1]:https://developer.mozilla.org/en-US/docs/Glossary/Primitive
+[2]:https://en.wikipedia.org/wiki/Multiple_dispatch
 [3]:https://github.com/bas080/patroon/blob/master/src/index.js
+[5]:./src/index.test.js
 [7]:https://stackoverflow.com/questions/50452844/functional-programming-style-pattern-matching-in-javascript/67376827#67376827
 [8]:https://github.com/istanbuljs/nyc
-[5]:./src/index.test.js
 [9]:https://www.npmjs.com/package/patroon
 [10]:./CONTRIBUTING.md
-[1]:https://developer.mozilla.org/en-US/docs/Glossary/Primitive

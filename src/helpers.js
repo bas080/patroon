@@ -16,22 +16,20 @@ function isDefined (x) {
   return x != null
 }
 
+const T = () => true
+
+const is = Ctor => instance => isDefined(instance) && (instance.constructor ===
+  Ctor || instance instanceof Ctor)
+
 module.exports = {
   isDefined,
   always: x => () => x,
   isConstructor,
+  is,
   toPairs,
   isNil,
   isEven (x) {
     return x % 2 === 0
-  },
-  is: Ctor => {
-    if (!isConstructor(Ctor)) {
-      throw new Error('Ctor is not a constructor')
-    }
-
-    return instance =>
-      isDefined(instance) && (instance.constructor === Ctor || instance instanceof Ctor)
   },
   tryCatch (tryFn, catchFn) {
     return (...args) => {
@@ -42,9 +40,7 @@ module.exports = {
       }
     }
   },
-  T () {
-    return true
-  },
+  T,
   equals (a, b) {
     return a === b || Object.is(a, b)
   },

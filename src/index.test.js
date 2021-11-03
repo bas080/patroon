@@ -1,9 +1,14 @@
 const { test } = require('tape')
 const { check, gen } = require('tape-check')
 const {
-  ref,
-  patroon,
+  reference,
   typed,
+  t,
+  ref,
+  every,
+  some,
+  multi,
+  patroon,
   NoMatchError,
   UnevenArgumentCountError,
   _
@@ -28,15 +33,15 @@ test('Match using reference', t => {
   patroon(
     1, () => t.fail(),
     Number, () => t.fail(),
-    ref(Number), t.end()
+    reference(Number), t.end()
   )(Number)
 })
 
 test('Matches on type and value', t => {
   patroon(
-    typed(Error, { x: 20 }), () => t.fail(),
-    typed(Error, { x: 10 }), () => t.end(),
-    typed(Error), () => t.fail()
+    every(Error, { x: 20 }), () => t.fail(),
+    every(Error, { x: 10 }), () => t.end(),
+    every(Error), () => t.fail()
   )(Object.assign(new Error(), { x: 10 }))
 })
 
@@ -64,11 +69,6 @@ test('Does not match when a value does not exist', t => {
   )({})
 })
 
-test('Throws when a typed does not receice a constructor', t => {
-  t.plan(1)
-  t.throws(() => typed(20), Error)
-})
-
 test('Throws in a predicate function', t => {
   class SomeError extends Error { }
 
@@ -82,4 +82,79 @@ test('Throws in a predicate function', t => {
 test('Throws when an uneven amount of arguments are passed', t => {
   t.plan(1)
   t.throws(() => patroon(1), UnevenArgumentCountError)
+})
+
+test('Matches when every pattern matches', t => {
+  t.plan(4)
+
+  const F = () => {
+    t.pass('False called')
+    return false
+  }
+
+  const T = () => {
+    t.pass('True called')
+
+    return true
+  }
+
+  patroon(
+    every(F, F, F), () => t.fail(),
+    every(T, T, T), () => t.end()
+  )(null)
+})
+
+test('Matches when some pattern matches', t => {
+  t.plan(4)
+
+  const F = () => {
+    t.pass('False called')
+    return false
+  }
+
+  const T = () => {
+    t.pass('True called')
+
+    return true
+  }
+
+  patroon(
+    some(F, F, F), () => t.fail(),
+    some(T, T, T), () => t.end()
+  )(null)
+})
+
+test('Matches when comparing array with object', t => {
+  patroon(
+    [1], () => t.end()
+  )({ 0: 1 })
+})
+
+test('Matches when comparing array with object', t => {
+  patroon(
+    { 0: 1 }, () => t.end()
+  )([1])
+})
+
+test('Matches always when pattern equals value', check(gen.any, (t, val) => {
+  patroon(multi(val), true)(val)
+  patroon(multi(_, val), true)(null, val)
+  patroon(multi(_, _, val), true)(null, null, val)
+
+  t.end()
+}))
+
+test('Matches when arguments match multi pattern', check(gen.any, (t, val) => {
+  patroon(
+    multi(0, 1, 2), () => t.fail(),
+    multi(1, 2, 3), () => t.end()
+  )(1, 2, 3)
+}))
+
+test('Deprecated functions', ts => {
+  ts.plan(0)
+  typed(Error, null)(new Error())
+  t(Error, null)(new Error())
+  ref(Error, null)(Error)
+  ts.end()
 })

@@ -1,15 +1,47 @@
 const { mapLeaves, path, PathError } = require('./walkable')()
 const { isConstructor, isFunction, equals, T, is, tryCatch, isEven, isNil, toPairs, always } = require('./helpers')
 
+const deprecated = (fn, message) => {
+  console.error(`[patroon] deprecated: ${message}`)
+  return fn
+}
+
+const typed = deprecated(function typed (Ctor, pattern) {
+  return every(Ctor, pattern)
+}, 'replace "typed(Constructor, [pattern])" with "every(Constructor, pattern)"')
+
 const isRegExp = is(RegExp)
 
-const match = pattern => {
-  // TODO: also check if something is a constructor
+const every = (...patterns) => {
+  const matches = patterns.map(predicate)
+
+  return (...args) => matches.every(pred => pred(...args))
+}
+
+const some = (...patterns) => {
+  const matches = patterns.map(predicate)
+
+  return (...args) => matches.some(pred => pred(...args))
+}
+
+const multiSymbol = Symbol('multi')
+
+const multi = (...patterns) => {
+  const matches = predicate(patterns)
+  const multi = (...args) => matches(args)
+
+  multi[multiSymbol] = true
+
+  return multi
+}
+
+const predicate = pattern => {
+  if (pattern && pattern[multiSymbol]) { return (...args) => pattern(...args) }
 
   const normalize = (value, pth) => {
     if (isRegExp(value)) return arg => value.test(arg)
 
-    if (isConstructor(value)) { return typed(value) }
+    if (isConstructor(value)) { return is(value) }
 
     if (isFunction(value)) { return arg => value(path(pth, arg)) }
 
@@ -48,7 +80,7 @@ const toFunction = x => isFunction(x) ? x : always(x)
 const patroon = (...list) => {
   if (!isEven(list.length)) { throw new UnevenArgumentCountError('Patroon should have an even amount of arguments.') }
 
-  const patterns = toPairs(list).map(([pattern, doFn]) => [match(pattern), toFunction(doFn)])
+  const patterns = toPairs(list).map(([pattern, doFn]) => [predicate(pattern), toFunction(doFn)])
 
   return (...args) => {
     const found = patterns.find(([matches]) => matches(...args))
@@ -61,19 +93,7 @@ const patroon = (...list) => {
   }
 }
 
-function typed (Ctor, ...args) {
-  if (args.length === 0) {
-    return is(Ctor)
-  }
-
-  const [pattern] = args
-
-  return (instance) =>
-    typed(Ctor)(instance) &&
-    match(pattern)(instance)
-}
-
-function ref (fn) {
+function reference (fn) {
   return (arg) => fn === arg
 }
 
@@ -82,8 +102,12 @@ module.exports = Object.assign(patroon, {
   UnevenArgumentCountError,
   PatroonError,
   patroon,
-  ref,
-  _: T,
+  every,
+  some,
+  multi,
+  ref: deprecated(reference, 'replace "ref(x)" with "reference(x)"'),
+  reference,
   typed,
-  t: typed
+  t: typed,
+  _: T
 })

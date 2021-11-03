@@ -3,8 +3,10 @@
 cat <(echo '
 const {
   _,
-  typed,
-  ref,
+  every,
+  some,
+  multi,
+  reference,
   patroon,
   NoMatchError,
   UnevenArgumentCountError,

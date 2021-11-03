@@ -26,6 +26,7 @@ The README.md is generated using [markatzea][6].
 ```bash bash
 markatzea README.mz > README.md
 npx markdown-toc --maxdepth 4 -i README.md
+echo 'Documentation generated successfully.' 1>&2
 ```
 
 [1]:https://en.wikipedia.org/wiki/Tree_traversal
