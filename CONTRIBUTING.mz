@@ -21,11 +21,25 @@ npx standard || npx standard --fix
 
 ## Documentation
 
-The README.md is generated using [markatzea][6].
+We generate the contributors list using node and store it in [memplate][7].
+
+```js node -p | memplate contributors
+require('./package.json').contributors.reduce((acc, {name, url, email}) =>
+  `${acc}- **${name}** *${url}*\n`, '')
+```
+
+We also generate the table of contents and store it in memplate.
+
+```bash bash | memplate toc
+npx markdown-toc --no-firsth1 --maxdepth 4 README.mz
+
+```
+
+We then use memplate to template the README. Then we run [markatzea][6] to run
+the examples and show the output of those.
 
 ```bash bash
-markatzea README.mz > README.md
-npx markdown-toc --maxdepth 4 -i README.md
+memplate < README.mz | markatzea > README.md
 echo 'Documentation generated successfully.' 1>&2
 ```
 
@@ -34,3 +48,4 @@ echo 'Documentation generated successfully.' 1>&2
 [3]:https://github.com/bas080/patroon/blob/master/src/index.js
 [4]:https://github.com/bas080/patroon/blob/master/src/helpers.js
 [6]:https://github.com/bas080/markatzea
+[7]:https://github.com/bas080/memplate

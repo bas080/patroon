@@ -9,8 +9,6 @@
 
 Pattern matching in JavaScript without additional syntax.
 
-<!-- toc -->
-
 - [Installation](#installation)
 - [Usage](#usage)
   * [Primitive](#primitive)
@@ -31,8 +29,7 @@ Pattern matching in JavaScript without additional syntax.
     + [PatroonError](#patroonerror)
 - [Tests](#tests)
 - [Contribute](#contribute)
-
-<!-- tocstop -->
+  * [Contributors](#contributors)
 
 ## Installation
 
@@ -475,12 +472,12 @@ const oneIsTwo = patroon(1, 2)
 oneIsTwo(3)
 ```
 ```
-/home/ant/projects/patroon/src/index.js:79
+/home/ant/projects/patroon/src/index.js:88
     if (isNil(found)) { throw new NoMatchError(`Not able to match any pattern for value ${JSON.stringify(args)}`) }
                         ^
 
 NoMatchError: Not able to match any pattern for value [3]
-    at /home/ant/projects/patroon/src/index.js:79:31
+    at /home/ant/projects/patroon/src/index.js:88:31
 ```
 
 #### UnevenArgumentCountError
@@ -491,12 +488,12 @@ Another error that occurs is when the patroon function is not used correctly.
 patroon(1)
 ```
 ```
-/home/ant/projects/patroon/src/index.js:72
+/home/ant/projects/patroon/src/index.js:81
   if (!isEven(list.length)) { throw new UnevenArgumentCountError('Patroon should have an even amount of arguments.') }
                               ^
 
 UnevenArgumentCountError: Patroon should have an even amount of arguments.
-    at patroon (/home/ant/projects/patroon/src/index.js:72:37)
+    at patroon (/home/ant/projects/patroon/src/index.js:81:37)
 ```
 
 #### PatroonError
@@ -532,7 +529,7 @@ npx nyc npm t | npx tap-nyc
 npx nyc check-coverage
 ```
 ```
-    > patroon@0.3.0 test
+    > patroon@0.4.0 test
     > tape ./src/index.test.js
     -------------|---------|----------|---------|---------|-------------------
     File         | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
@@ -546,7 +543,7 @@ npx nyc check-coverage
   total:     12
   passing:   12
 
-  duration:  1.4s
+  duration:  1.5s
 
 ```
 
@@ -554,6 +551,12 @@ npx nyc check-coverage
 
 You may contribute in whatever manner you see fit. Do try to be helpful and
 polite and read the [CONTRIBUTING.md][10].
+
+### Contributors
+
+- **Bassim Huis** *https://github.com/bas080*
+- **Scott Sauyet** *http://scott.sauyet.com*
+
 
 [1]:https://developer.mozilla.org/en-US/docs/Glossary/Primitive
 [2]:https://en.wikipedia.org/wiki/Multiple_dispatch

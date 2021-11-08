@@ -9,7 +9,7 @@
 
 Pattern matching in JavaScript without additional syntax.
 
-<!-- toc -->
+<toc
 
 ## Installation
 
@@ -266,7 +266,7 @@ A helper that makes it easy to check if a value passes all patterns.
 
 ```js ./tape-test
 const gte200 = x => x >= 200
-const lt300 = x => x < 300
+const lt300 = x => x \< 300
 
 patroon(
   every(gte200, lt300), 'Is a 200 status code'
@@ -406,6 +406,10 @@ npx nyc check-coverage
 
 You may contribute in whatever manner you see fit. Do try to be helpful and
 polite and read the [CONTRIBUTING.md][10].
+
+### Contributors
+
+<contributors
 
 [1]:https://developer.mozilla.org/en-US/docs/Glossary/Primitive
 [2]:https://en.wikipedia.org/wiki/Multiple_dispatch
