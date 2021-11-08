@@ -152,9 +152,16 @@ test('Matches when arguments match multi pattern', check(gen.any, (t, val) => {
 }))
 
 test('Deprecated functions', ts => {
-  ts.plan(0)
+  ts.plan(3)
+
+  const consoleError = console.error
+
+  console.error = message =>
+    ts.ok(message.startsWith('[patroon] deprecated: '))
+
   typed(Error, null)(new Error())
   t(Error, null)(new Error())
   ref(Error, null)(Error)
+  console.error = consoleError
   ts.end()
 })
