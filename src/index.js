@@ -1,9 +1,9 @@
 const { mapLeaves, path, PathError } = require('./walkable')()
 const { isConstructor, isFunction, equals, T, is, tryCatch, isEven, isNil, toPairs, always } = require('./helpers')
 
-const deprecated = (fn, message) => {
+const deprecated = (fn, message) => (...args) => {
   console.error(`[patroon] deprecated: ${message}`)
-  return fn
+  return fn(...args)
 }
 
 const typed = deprecated(function typed (Ctor, pattern) {
