@@ -8,7 +8,7 @@ const deprecated = (fn, message) => (...args) => {
 
 const typed = deprecated(function typed (Ctor, pattern) {
   return every(Ctor, pattern)
-}, 'replace "typed(Constructor, [pattern])" with "every(Constructor, pattern)"')
+}, 'replace "typed" or "t" helpers with "every(Constructor, pattern)"')
 
 const isRegExp = is(RegExp)
 
@@ -87,14 +87,12 @@ const patroon = (...list) => {
 
     if (isNil(found)) { throw new NoMatchError(`Not able to match any pattern for value ${JSON.stringify(args)}`) }
 
-    const [, doFn] = found
-
-    return doFn(...args)
+    return found[1](...args)
   }
 }
 
-function reference (fn) {
-  return (arg) => fn === arg
+function reference (any) {
+  return value => any === value
 }
 
 module.exports = Object.assign(patroon, {

@@ -1,6 +1,6 @@
 # Patroon
 
-Pattern matching in JavaScript without additional syntax
+Pattern matching in JavaScript without additional syntax.
 
 [![NPM](https://img.shields.io/npm/v/patroon?color=blue&style=flat-square)](https://www.npmjs.com/package/patroon)
 [![NPM Downloads](https://img.shields.io/npm/dm/patroon?style=flat-square)](https://www.npmjs.com/package/patroon)
@@ -545,7 +545,7 @@ npx nyc check-coverage
   total:     15
   passing:   15
 
-  duration:  1.5s
+  duration:  703ms
 
 ```
 
