@@ -35,17 +35,23 @@ function mapLeaves (config, cb, item) {
 
 class PathError extends TypeError {}
 
-function path (pth, v) {
+function path (pth, v, errorData) {
+  if (isNil(errorData)) { return path(pth, v, { path: pth, value: v }) }
+
   if (pth.length === 0) { return v }
 
   const [key, ...rest] = pth
 
   if (!(key in v)) {
-    throw new PathError(
-      `Cannot read path '${JSON.stringify(pth)}' on ${JSON.stringify(v)}`)
+    const error = new PathError(
+      `Cannot read property '${JSON.stringify(pth)}' of ${JSON.stringify(v)}`)
+
+    Object.assign(error, errorData)
+
+    throw error
   }
 
-  return path(rest, v[key])
+  return path(rest, v[key], errorData)
 }
 
 function map (fn, x) {
