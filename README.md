@@ -309,6 +309,20 @@ patroon(
 Index 6 has value 7
 ```
 
+A function that returns the lenght of an array:
+
+```js ./tape-test
+const count = patroon(
+  [_], ([, ...xs]) => 1 + count(xs),
+  [], 0
+)
+
+count([0,1,2,3])
+```
+```
+4
+```
+
 A function that looks for a certain pattern in an array:
 
 ```js ./tape-test
@@ -531,7 +545,7 @@ npx nyc npm t | npx tap-nyc
 npx nyc check-coverage
 ```
 ```
-    > patroon@0.4.1 test
+    > patroon@0.4.2 test
     > tape ./src/index.test.js
     -------------|---------|----------|---------|---------|-------------------
     File         | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
@@ -545,7 +559,7 @@ npx nyc check-coverage
   total:     15
   passing:   15
 
-  duration:  703ms
+  duration:  722ms
 
 ```
 

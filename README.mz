@@ -235,6 +235,17 @@ patroon(
 )([1, 2, 3, 4, 5, 6, 7])
 ```
 
+A function that returns the lenght of an array:
+
+```js ./tape-test
+const count = patroon(
+  [_], ([, ...xs]) => 1 + count(xs),
+  [], 0
+)
+
+count([0,1,2,3])
+```
+
 A function that looks for a certain pattern in an array:
 
 ```js ./tape-test
