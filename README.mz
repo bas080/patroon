@@ -189,6 +189,35 @@ patroon([], 'is array')([])
 patroon(Array, 'is array')([])
 ```
 
+A less intuitive case:
+
+```js ./tape-test > /dev/null
+patroon({}, 'is object')([])
+patroon([], 'is array')({})
+```
+
+Patroon allows this because Arrays can have properties defined.
+
+```js ./tape-test > /dev/null
+const array = []
+array.prop = 42
+
+patroon({prop: _}, 'has prop')(array)
+```
+
+The other way around is also allowed even if it seems weird.
+
+```js ./tape-test > /dev/null
+const object = {0: 'wow'}
+patroon(['wow'], 'has 0th')(object)
+```
+
+If you do not desire this loose behavior you can use a predicate to make sure
+something is an array or object.
+
+```js ./tape-test > /dev/null
+patroon(Array.isArray, 'is array')([])
+```
 
 ### Reference
 
