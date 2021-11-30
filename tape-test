@@ -4,6 +4,7 @@ cat <(echo '
 const {
   _,
   every,
+  instanceOf,
   some,
   multi,
   reference,

@@ -8,10 +8,6 @@ const toPairs = items => {
 
 const isNil = x => !(x != null)
 
-function isConstructor (func) {
-  return Boolean(func && typeof func === 'function' && func.prototype && func.prototype.constructor)
-}
-
 function isDefined (x) {
   return x != null
 }
@@ -24,7 +20,6 @@ const is = Ctor => instance => isDefined(instance) && (instance.constructor ===
 module.exports = {
   isDefined,
   always: x => () => x,
-  isConstructor,
   is,
   toPairs,
   isNil,

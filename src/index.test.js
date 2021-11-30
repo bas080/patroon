@@ -2,6 +2,7 @@ const { test } = require('tape')
 const { check, gen } = require('tape-check')
 const {
   reference,
+  instanceOf,
   typed,
   t,
   ref,
@@ -39,9 +40,9 @@ test('Match using reference', t => {
 
 test('Matches on type and value', t => {
   patroon(
-    every(Error, { x: 20 }), () => t.fail(),
-    every(Error, { x: 10 }), () => t.end(),
-    every(Error), () => t.fail()
+    every(instanceOf(Error), { x: 20 }), () => t.fail(),
+    every(instanceOf(Error), { x: 10 }), () => t.end(),
+    instanceOf(Error), () => t.fail()
   )(Object.assign(new Error(), { x: 10 }))
 })
 

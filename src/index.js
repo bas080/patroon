@@ -1,5 +1,5 @@
 const { mapLeaves, path, PathError } = require('./walkable')()
-const { isConstructor, isFunction, equals, T, is, tryCatch, isEven, isNil, toPairs, always } = require('./helpers')
+const { isFunction, equals, T, is, tryCatch, isEven, isNil, toPairs, always } = require('./helpers')
 
 const deprecated = (fn, message) => (...args) => {
   console.error(`[patroon] deprecated: ${message}`)
@@ -40,8 +40,6 @@ const predicate = pattern => {
 
   const normalize = (value, pth) => {
     if (isRegExp(value)) return arg => value.test(arg)
-
-    if (isConstructor(value)) { return is(value) }
 
     if (isFunction(value)) { return arg => value(path(pth, arg)) }
 
@@ -95,6 +93,10 @@ function reference (any) {
   return value => any === value
 }
 
+function instanceOf (ctor) {
+  return value => value instanceof ctor
+}
+
 module.exports = Object.assign(patroon, {
   NoMatchError,
   UnevenArgumentCountError,
@@ -107,5 +109,6 @@ module.exports = Object.assign(patroon, {
   reference,
   typed,
   t: typed,
+  instanceOf,
   _: T
 })

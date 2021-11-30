@@ -192,8 +192,8 @@ builtin node error constructors in this example.
 
 ```js ./tape-test
 patroon(
-  TypeError, 'is a type error',
-  Error, 'is an error'
+  instanceOf(TypeError), 'is a type error',
+  instanceOf(Error), 'is an error'
 )(new Error())
 ```
 ```
@@ -213,8 +213,8 @@ Because of this you can match a TypeError with an Error.
 
 ```js ./tape-test
 patroon(
-  Error, 'matches on error',
-  TypeError, 'matches on type error'
+  instanceOf(Error), 'matches on error',
+  instanceOf(TypeError), 'matches on type error'
 )(new TypeError())
 ```
 ```
@@ -226,9 +226,9 @@ Here you should use the every helper.
 
 ```js ./tape-test
 patroon(
-  every(TypeError, { value: 20 }), 'type error where value is 20',
-  every(Error, { value: 30 }), 'error where value is 30',
-  every(Error, { value: 20 }), 'error where value is 20'
+  every(instanceOf(TypeError), { value: 20 }), 'type error where value is 20',
+  every(instanceOf(Error), { value: 30 }), 'error where value is 30',
+  every(instanceOf(Error), { value: 20 }), 'error where value is 20'
 )(Object.assign(new TypeError(), { value: 20 }))
 ```
 ```
@@ -251,6 +251,35 @@ patroon([], 'is array')([])
 patroon(Array, 'is array')([])
 ```
 
+A less intuitive case:
+
+```js ./tape-test > /dev/null
+patroon({}, 'is object')([])
+patroon([], 'is array')({})
+```
+
+Patroon allows this because Arrays can have properties defined.
+
+```js ./tape-test > /dev/null
+const array = []
+array.prop = 42
+
+patroon({prop: _}, 'has prop')(array)
+```
+
+The other way around is also allowed even if it seems weird.
+
+```js ./tape-test > /dev/null
+const object = {0: 42}
+patroon([42], 'has 0th')(object)
+```
+
+If you do not desire this loose behavior you can use a predicate to make sure
+something is an array or object.
+
+```js ./tape-test > /dev/null
+patroon(Array.isArray, 'is array')([])
+```
 
 ### Reference
 
@@ -259,7 +288,7 @@ helper.
 
 ```js ./tape-test
 patroon(
-  Error, 'is an instance of Error',
+  instanceOf(Error), 'is an instance of Error',
   reference(Error), 'is the Error constructor'
 )(Error)
 ```
@@ -488,12 +517,12 @@ const oneIsTwo = patroon(1, 2)
 oneIsTwo(3)
 ```
 ```
-/home/ant/projects/patroon/src/index.js:88
+/home/ant/projects/patroon/src/index.js:86
     if (isNil(found)) { throw new NoMatchError(`Not able to match any pattern for value ${JSON.stringify(args)}`) }
                         ^
 
 NoMatchError: Not able to match any pattern for value [3]
-    at /home/ant/projects/patroon/src/index.js:88:31
+    at /home/ant/projects/patroon/src/index.js:86:31
 ```
 
 #### UnevenArgumentCountError
@@ -504,12 +533,12 @@ Another error that occurs is when the patroon function is not used correctly.
 patroon(1)
 ```
 ```
-/home/ant/projects/patroon/src/index.js:81
+/home/ant/projects/patroon/src/index.js:79
   if (!isEven(list.length)) { throw new UnevenArgumentCountError('Patroon should have an even amount of arguments.') }
                               ^
 
 UnevenArgumentCountError: Patroon should have an even amount of arguments.
-    at patroon (/home/ant/projects/patroon/src/index.js:81:37)
+    at patroon (/home/ant/projects/patroon/src/index.js:79:37)
 ```
 
 #### PatroonError
@@ -517,7 +546,7 @@ UnevenArgumentCountError: Patroon should have an even amount of arguments.
 All errors patroon produces can be matched against the PatroonError using `instanceof`.
 
 ```js ./tape-test
-const isPatroonError = patroon(PatroonError, 'patroon is causing an error')
+const isPatroonError = patroon(instanceOf(PatroonError), 'patroon is causing an error')
 
 isPatroonError(new NoMatchError())
 isPatroonError(new UnevenArgumentCountError())
@@ -545,7 +574,7 @@ npx nyc npm t | npx tap-nyc
 npx nyc check-coverage
 ```
 ```
-    > patroon@0.4.2 test
+    > patroon@0.4.3 test
     > tape ./src/index.test.js
     -------------|---------|----------|---------|---------|-------------------
     File         | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
@@ -559,7 +588,7 @@ npx nyc check-coverage
   total:     15
   passing:   15
 
-  duration:  722ms
+  duration:  1.3s
 
 ```
 
