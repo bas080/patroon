@@ -83,7 +83,14 @@ const patroon = (...list) => {
   return (...args) => {
     const found = patterns.find(([matches]) => matches(...args))
 
-    if (isNil(found)) { throw new NoMatchError(`Not able to match any pattern for value ${JSON.stringify(args)}`) }
+    if (isNil(found)) {
+      const error = new NoMatchError('Not able to match any pattern for arguments')
+      error.arguments = args
+
+      console.error(args)
+
+      throw error
+    }
 
     return found[1](...args)
   }
