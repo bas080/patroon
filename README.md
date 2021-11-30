@@ -517,12 +517,12 @@ const oneIsTwo = patroon(1, 2)
 oneIsTwo(3)
 ```
 ```
-/home/ant/projects/patroon/src/index.js:86
-    if (isNil(found)) { throw new NoMatchError(`Not able to match any pattern for value ${JSON.stringify(args)}`) }
-                        ^
+[ 3 ]
+/home/ant/projects/patroon/src/index.js:92
+      throw error
+      ^
 
-NoMatchError: Not able to match any pattern for value [3]
-    at /home/ant/projects/patroon/src/index.js:86:31
+NoMatchError: Not able to match any pattern for arguments
 ```
 
 #### UnevenArgumentCountError
@@ -574,7 +574,7 @@ npx nyc npm t | npx tap-nyc
 npx nyc check-coverage
 ```
 ```
-    > patroon@0.4.3 test
+    > patroon@1.0.0 test
     > tape ./src/index.test.js
     -------------|---------|----------|---------|---------|-------------------
     File         | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
@@ -588,7 +588,7 @@ npx nyc check-coverage
   total:     15
   passing:   15
 
-  duration:  1.3s
+  duration:  1s
 
 ```
 
