@@ -27,6 +27,7 @@ Pattern matching in JavaScript without additional syntax.
     + [NoMatchError](#nomatcherror)
     + [UnevenArgumentCountError](#unevenargumentcounterror)
     + [PatroonError](#patroonerror)
+- [Examples](#examples)
 - [Tests](#tests)
 - [Contribute](#contribute)
   * [Contributors](#contributors)
@@ -555,6 +556,14 @@ isPatroonError(new UnevenArgumentCountError())
 patroon is causing an error
 ```
 
+## Examples
+
+Patroon can be used in any context that can benefit from pattern matching.
+
+- The following tests show how patroon can help you test your JSON API by
+  pattern matching on status codes and the body:
+  https://github.com/bas080/didomi/blob/master/index.test.js.
+
 ## Tests
 
 [./src/index.test.js][5] - Contains some tests for edge cases and it defines
@@ -574,7 +583,7 @@ npx nyc npm t | npx tap-nyc
 npx nyc check-coverage
 ```
 ```
-    > patroon@1.0.0 test
+    > patroon@1.1.0 test
     > tape ./src/index.test.js
     -------------|---------|----------|---------|---------|-------------------
     File         | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
@@ -588,7 +597,7 @@ npx nyc check-coverage
   total:     15
   passing:   15
 
-  duration:  1s
+  duration:  1.4s
 
 ```
 

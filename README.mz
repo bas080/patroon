@@ -425,6 +425,14 @@ isPatroonError(new NoMatchError())
 isPatroonError(new UnevenArgumentCountError())
 ```
 
+## Examples
+
+Patroon can be used in any context that can benefit from pattern matching.
+
+- The following tests show how patroon can help you test your JSON API by
+  pattern matching on status codes and the body:
+  https://github.com/bas080/didomi/blob/master/index.test.js.
+
 ## Tests
 
 [./src/index.test.js][5] - Contains some tests for edge cases and it defines
