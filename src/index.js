@@ -39,7 +39,7 @@ const predicate = pattern => {
   if (pattern && pattern[multiSymbol]) { return (...args) => pattern(...args) }
 
   const normalize = (value, pth) => {
-    if (isRegExp(value)) return arg => value.test(arg)
+    if (isRegExp(value)) return arg => value.test(path(pth, arg))
 
     if (isFunction(value)) { return arg => value(path(pth, arg)) }
 

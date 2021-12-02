@@ -25,6 +25,11 @@ test('Matches on a simple primitive', t => {
 
 test('Matches using a RegExp', t => {
   patroon(
+    { a: /^bunion/ }, () => t.fail(),
+    { a: /^banana/ }, () => t.pass()
+  )({ a: 'banana tree' })
+
+  patroon(
     /^bunion/, () => t.fail(),
     /^banana/, () => t.end()
   )('banana tree')

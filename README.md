@@ -594,10 +594,10 @@ npx nyc check-coverage
      walkable.js |     100 |      100 |     100 |     100 |                   
     -------------|---------|----------|---------|---------|-------------------
 
-  total:     15
-  passing:   15
+  total:     16
+  passing:   16
 
-  duration:  1.4s
+  duration:  1.5s
 
 ```
 
