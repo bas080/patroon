@@ -573,8 +573,8 @@ We also care about code coverage so we'll use [nyc][8] to generate a coverage
 report.
 
 ```bash bash -eo pipefail
-# Install and prune dependencies
-{ npm i && npm prune; } &> /dev/null
+# Clean install dependencies.
+npm ci &> /dev/null
 
 # Run tests and generate a coverage report
 npx nyc npm t | npx tap-nyc
@@ -597,7 +597,7 @@ npx nyc check-coverage
   total:     19
   passing:   19
 
-  duration:  1.5s
+  duration:  11.9s
 
 ```
 
