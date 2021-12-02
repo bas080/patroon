@@ -583,7 +583,7 @@ npx nyc npm t | npx tap-nyc
 npx nyc check-coverage
 ```
 ```
-    > patroon@1.1.0 test
+    > patroon@1.1.1 test
     > tape ./src/index.test.js
     -------------|---------|----------|---------|---------|-------------------
     File         | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
@@ -597,7 +597,7 @@ npx nyc check-coverage
   total:     16
   passing:   16
 
-  duration:  1.5s
+  duration:  1.6s
 
 ```
 
