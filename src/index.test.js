@@ -1,5 +1,7 @@
 const { test } = require('tape')
+const { isNil } = require('./helpers')
 const { check, gen } = require('tape-check')
+const { version } = require('../package')
 const {
   reference,
   instanceOf,
@@ -190,3 +192,14 @@ test('Does not throw when value is recursive', t => {
   t.plan(1)
   t.ok(patroon({ a: _ }, true)(circular))
 })
+
+if (version.startsWith('2')) {
+
+  test('Deprecated functions in version 2', t => {
+    t.plan(3)
+    t.ok(isNil(require('./index').typed))
+    t.ok(isNil(require('./index').t))
+    t.ok(isNil(require('./index').ref))
+  })
+
+}
