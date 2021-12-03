@@ -171,3 +171,22 @@ test('Deprecated functions', ts => {
   console.error = consoleError
   ts.end()
 })
+
+// Circular reference
+const circular = {}
+circular.a = circular
+
+test('At the moment recursive patterns throw and print', t => {
+  t.plan(1)
+  t.throws(() => patroon(circular, true)({}))
+})
+
+test('Throws and prints because path is not defined', t => {
+  t.plan(1)
+  t.throws(() => patroon({ b: _ }, true)(circular))
+})
+
+test('Does not throw when value is recursive', t => {
+  t.plan(1)
+  t.ok(patroon({ a: _ }, true)(circular))
+})

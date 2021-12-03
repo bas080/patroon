@@ -519,7 +519,7 @@ oneIsTwo(3)
 ```
 ```
 [ 3 ]
-/home/ant/projects/patroon/src/index.js:92
+/home/ant/projects/patroon/src/index.js:93
       throw error
       ^
 
@@ -534,12 +534,12 @@ Another error that occurs is when the patroon function is not used correctly.
 patroon(1)
 ```
 ```
-/home/ant/projects/patroon/src/index.js:79
+/home/ant/projects/patroon/src/index.js:80
   if (!isEven(list.length)) { throw new UnevenArgumentCountError('Patroon should have an even amount of arguments.') }
                               ^
 
 UnevenArgumentCountError: Patroon should have an even amount of arguments.
-    at patroon (/home/ant/projects/patroon/src/index.js:79:37)
+    at patroon (/home/ant/projects/patroon/src/index.js:80:37)
 ```
 
 #### PatroonError
@@ -594,10 +594,10 @@ npx nyc check-coverage
      walkable.js |     100 |      100 |     100 |     100 |                   
     -------------|---------|----------|---------|---------|-------------------
 
-  total:     16
-  passing:   16
+  total:     19
+  passing:   19
 
-  duration:  1.6s
+  duration:  1.4s
 
 ```
 

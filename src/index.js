@@ -1,5 +1,6 @@
 const { mapLeaves, path, PathError } = require('./walkable')()
 const { isFunction, equals, T, is, tryCatch, isEven, isNil, toPairs, always } = require('./helpers')
+const { inspect } = require('util')
 
 const deprecated = (fn, message) => (...args) => {
   console.error(`[patroon] deprecated: ${message}`)
@@ -87,7 +88,7 @@ const patroon = (...list) => {
       const error = new NoMatchError('Not able to match any pattern for arguments')
       error.arguments = args
 
-      console.error(args)
+      console.error(inspect(args))
 
       throw error
     }

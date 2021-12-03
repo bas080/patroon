@@ -44,7 +44,7 @@ function path (pth, v, errorData) {
 
   if (!(key in v)) {
     const error = new PathError(
-      `Cannot read property '${JSON.stringify(pth)}' of ${JSON.stringify(v)}`)
+      `Cannot read path ${pth}.`)
 
     Object.assign(error, errorData)
 
