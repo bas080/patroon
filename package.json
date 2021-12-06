@@ -16,8 +16,13 @@
     "pattern",
     "pattern-matching",
     "predicate",
-    "types",
-    "string"
+    "string",
+    "regex",
+    "regular expression",
+    "nested",
+    "deep",
+    "recursive",
+    "circular"
   ],
   "author": "Bassim Huis",
   "license": "GPL-3.0",
