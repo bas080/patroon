@@ -17,7 +17,17 @@ const T = () => true
 const is = Ctor => instance => isDefined(instance) && (instance.constructor ===
   Ctor || instance instanceof Ctor)
 
+function isPrimitive (x) {
+  return x !== Object(x)
+}
+
+function isEmpty (x) {
+  return !isPrimitive(x) && (Object.keys(x).length === 0)
+}
+
 module.exports = {
+  isPrimitive,
+  isEmpty,
   isDefined,
   always: x => () => x,
   is,

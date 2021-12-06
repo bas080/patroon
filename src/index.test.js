@@ -58,16 +58,12 @@ test('Matches always when pattern equals value', check(gen.any, (t, val) => {
 }))
 
 test('Matches none of the patterns and throws', t => {
-  try {
+  t.plan(1)
+  t.throws(() =>
     patroon(
       1, () => t.fail(),
       2, () => t.fail()
-    )(3)
-    t.fail()
-  } catch (e) {
-    t.ok(e instanceof NoMatchError)
-    t.end()
-  }
+    )(3), NoMatchError)
 })
 
 test('Does not match when a value does not exist', t => {
@@ -152,11 +148,10 @@ test('Matches always when pattern equals value', check(gen.any, (t, val) => {
   t.end()
 }))
 
-test('Matches when arguments match multi pattern', check(gen.any, (t, val) => {
+test('Matches always when arguments match multi pattern', check(gen.array(gen.any, {}), (t, args) => {
   patroon(
-    multi(0, 1, 2), () => t.fail(),
-    multi(1, 2, 3), () => t.end()
-  )(1, 2, 3)
+    multi(...args), () => t.end()
+  )(...args)
 }))
 
 test('Deprecated functions', ts => {
@@ -174,18 +169,37 @@ test('Deprecated functions', ts => {
   ts.end()
 })
 
+test('Returns primitive values', check(gen.primitive, (t, primitive) => {
+  t.equals(patroon(true, primitive)(true), primitive)
+  t.end()
+}))
+
+test(
+  'Does not match primitive with empty object or array',
+  check(gen.primitive, (t, primitive) => {
+    t.plan(2)
+    t.throws(() => patroon([], true)(primitive), NoMatchError)
+    t.throws(() => patroon({}, true)(primitive), NoMatchError)
+  }))
+
+test('Matching on nil values', check(gen.any, v => !isNil(v), (t, any) => {
+  t.plan(2)
+  t.throws(() => patroon(any, true)(undefined), NoMatchError)
+  t.throws(() => patroon(any, true)(null), NoMatchError)
+}))
+
 // Circular reference
 const circular = {}
 circular.a = circular
 
-test('At the moment recursive patterns throw and print', t => {
+test('Allows recursive patterns', t => {
   t.plan(1)
-  t.throws(() => patroon(circular, true)({}))
+  t.ok(patroon(circular, true)(circular))
 })
 
 test('Throws and prints because path is not defined', t => {
   t.plan(1)
-  t.throws(() => patroon({ b: _ }, true)(circular))
+  t.throws(() => patroon({ b: _ }, true)(circular), NoMatchError)
 })
 
 test('Does not throw when value is recursive', t => {
@@ -193,13 +207,20 @@ test('Does not throw when value is recursive', t => {
   t.ok(patroon({ a: _ }, true)(circular))
 })
 
-if (version.startsWith('2')) {
+test('Does not match on reference', t => {
+  t.plan(4)
+  t.ok(patroon({ a: {} }, true)({ a: {} }))
+  t.ok(patroon({ a: [] }, true)({ a: [] }))
+  t.ok(patroon({ a: [] }, true)({ a: {} }))
+  t.ok(patroon({ a: {} }, true)({ a: [] }))
+  t.end()
+})
 
+if (version.startsWith('2')) {
   test('Deprecated functions in version 2', t => {
     t.plan(3)
     t.ok(isNil(require('./index').typed))
     t.ok(isNil(require('./index').t))
     t.ok(isNil(require('./index').ref))
   })
-
 }

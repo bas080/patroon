@@ -1,7 +1,9 @@
-const { isFunction, isNil } = require('./helpers')
+const { isEmpty, isFunction, isNil } = require('./helpers')
 
 function walk (config, transform, item, path = []) {
   if (config.isLeafe(item)) { return transform(item, path) }
+
+  if (config.isCircular(item)) { return transform(item, path) }
 
   return config.map((v, i) => walk(config, transform, v, [...path, i]), item)
 }
@@ -24,8 +26,16 @@ function isObject (v) {
   return typeof v === 'object' && v !== null
 }
 
+const isCircular = (visited = []) => x => {
+  const isCircular = visited.includes(x)
+
+  visited.push(x)
+
+  return isCircular
+}
+
 function isLeafe (x) {
-  return Number.isNaN(x) || isNil(x) || x instanceof RegExp || isFunction(x) || (!isObject(x) && !isArray(x))
+  return Number.isNaN(x) || isNil(x) || x instanceof RegExp || isFunction(x) || isEmpty(x) || (!isObject(x) && !isArray(x))
 }
 
 function mapLeaves (config, cb, item) {
@@ -42,7 +52,7 @@ function path (pth, v, errorData) {
 
   const [key, ...rest] = pth
 
-  if (!(key in v)) {
+  if (isNil(v) || !(key in v)) {
     const error = new PathError(
       `Cannot read path ${pth}.`)
 
@@ -83,7 +93,10 @@ function walkable (config = {}) {
     reduce,
     mapLeaves
   ].reduce((api, fn) => {
-    api[fn.name] = fn.bind(null, config)
+    api[fn.name] = (...args) => fn({
+      isCircular: isCircular(),
+      ...config
+    }, ...args)
 
     return api
   }, api)

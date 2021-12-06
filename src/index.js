@@ -1,5 +1,5 @@
 const { mapLeaves, path, PathError } = require('./walkable')()
-const { isFunction, equals, T, is, tryCatch, isEven, isNil, toPairs, always } = require('./helpers')
+const { isFunction, equals, T, is, tryCatch, isEven, isNil, toPairs, always, isEmpty, isPrimitive } = require('./helpers')
 const { inspect } = require('util')
 
 const deprecated = (fn, message) => (...args) => {
@@ -44,6 +44,8 @@ const predicate = pattern => {
 
     if (isFunction(value)) { return arg => value(path(pth, arg)) }
 
+    if (isEmpty(value)) { return arg => !isPrimitive(path(pth, arg)) }
+
     return arg => equals(path(pth, arg), value)
   }
 
@@ -87,8 +89,9 @@ const patroon = (...list) => {
     if (isNil(found)) {
       const error = new NoMatchError('Not able to match any pattern for arguments')
       error.arguments = args
-
-      console.error(inspect(args))
+      error.patterns = list
+      error.arguments_inspect = inspect(args)
+      error.patterns_inspect = inspect(list)
 
       throw error
     }

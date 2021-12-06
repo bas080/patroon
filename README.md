@@ -518,12 +518,12 @@ const oneIsTwo = patroon(1, 2)
 oneIsTwo(3)
 ```
 ```
-[ 3 ]
-/home/ant/projects/patroon/src/index.js:93
+/home/ant/projects/patroon/src/index.js:96
       throw error
       ^
 
 NoMatchError: Not able to match any pattern for arguments
+    at /home/ant/projects/patroon/src/index.js:90:21
 ```
 
 #### UnevenArgumentCountError
@@ -534,12 +534,12 @@ Another error that occurs is when the patroon function is not used correctly.
 patroon(1)
 ```
 ```
-/home/ant/projects/patroon/src/index.js:80
+/home/ant/projects/patroon/src/index.js:82
   if (!isEven(list.length)) { throw new UnevenArgumentCountError('Patroon should have an even amount of arguments.') }
                               ^
 
 UnevenArgumentCountError: Patroon should have an even amount of arguments.
-    at patroon (/home/ant/projects/patroon/src/index.js:80:37)
+    at patroon (/home/ant/projects/patroon/src/index.js:82:37)
 ```
 
 #### PatroonError
@@ -594,10 +594,10 @@ npx nyc check-coverage
      walkable.js |     100 |      100 |     100 |     100 |                   
     -------------|---------|----------|---------|---------|-------------------
 
-  total:     19
-  passing:   19
+  total:     28
+  passing:   28
 
-  duration:  11.9s
+  duration:  9.5s
 
 ```
 
