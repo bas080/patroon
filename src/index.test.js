@@ -148,7 +148,7 @@ test('Matches always when pattern equals value', check(gen.any, (t, val) => {
   t.end()
 }))
 
-test('Matches always when arguments match multi pattern', check(gen.array(gen.any, {}), (t, args) => {
+test('Matches always when arguments match multi pattern', check(gen.array(gen.any), (t, args) => {
   patroon(
     multi(...args), () => t.end()
   )(...args)
