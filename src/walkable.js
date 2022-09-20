@@ -1,4 +1,4 @@
-const { isEmpty, isFunction, isNil } = require('./helpers')
+const { isEmpty, isFunction, isNil, isPrimitive } = require('./helpers')
 
 function walk (config, transform, item, path = []) {
   if (config.isLeafe(item)) { return transform(item, path) }
@@ -52,7 +52,7 @@ function path (pth, v, errorData) {
 
   const [key, ...rest] = pth
 
-  if (isNil(v) || !(key in v)) {
+  if (isPrimitive(v) || !(key in v)) {
     const error = new PathError(
       `Cannot read path ${pth}.`)
 

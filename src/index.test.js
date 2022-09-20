@@ -57,6 +57,17 @@ test('Matches always when pattern equals value', check(gen.any, (t, val) => {
   patroon(val, () => t.end())(val)
 }))
 
+test('Matches when empty array matches with empty array', t => {
+  patroon([], () => t.end())([])
+})
+
+test('May or may not match with any value', check(gen.any, gen.any, (t, a, b) => {
+  patroon(
+    a, () => t.end(),
+    _, () => t.end()
+  )(b)
+}))
+
 test('Matches none of the patterns and throws', t => {
   t.plan(1)
   t.throws(() =>
