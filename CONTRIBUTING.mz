@@ -32,7 +32,13 @@ We also generate the table of contents and store it in memplate.
 
 ```bash bash | memplate toc
 npx markdown-toc --no-firsth1 --maxdepth 4 README.mz
+```
 
+For the tests in the README.mz to work we also need to install patroon.
+
+```bash bash
+npm link
+npm link patroon
 ```
 
 We then use memplate to template the README. Then we run [markatzea][6] to run

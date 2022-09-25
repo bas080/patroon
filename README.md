@@ -42,6 +42,26 @@ npm install patroon
 
 ## Usage
 
+```js node -
+const {
+
+  patroon,
+
+  // Pattern Helpers
+  every,
+  some,
+  multi,
+  reference,
+  instanceOf,
+  _,
+
+  // Errors
+  NoMatchError,
+  UnevenArgumentCountError,
+  PatroonError,
+} = require('patroon')
+```
+
 Let's see what valid and less valid uses of patroon are.
 
 > You can try out patroon over at [RunKit][runkit].
@@ -597,7 +617,7 @@ npx nyc check-coverage
   total:     28
   passing:   28
 
-  duration:  9.5s
+  duration:  9.6s
 
 ```
 

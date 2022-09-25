@@ -1,6 +1,6 @@
 {
   "name": "patroon",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Pattern matching library",
   "repository": "github:bas080/patroon",
   "main": "./src/index.js",
