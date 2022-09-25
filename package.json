@@ -5,7 +5,8 @@
   "repository": "github:bas080/patroon",
   "main": "./src/index.js",
   "scripts": {
-    "test": "tape ./src/index.test.js"
+    "test": "tape ./src/index.test.js",
+    "preversion": "markatzea CONTRIBUTING.mz | tee CONTRIBUTING.md && git add *.mz *.md"
   },
   "keywords": [
     "array",
