@@ -472,6 +472,11 @@ npx nyc npm t | npx tap-nyc
 npx nyc check-coverage
 ```
 
+## Changelog
+
+See the [CHANGELOG.md][changelog] to know what changes are introduced for each
+version release.
+
 ## Contribute
 
 You may contribute in whatever manner you see fit. Do try to be helpful and
@@ -489,4 +494,5 @@ polite and read the [CONTRIBUTING.md][10].
 [8]:https://github.com/istanbuljs/nyc
 [9]:https://www.npmjs.com/package/patroon
 [10]:./CONTRIBUTING.md
+[changelog]:./CHANGELOG.md
 [runkit]:https://npm.runkit.com/patroon
