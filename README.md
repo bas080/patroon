@@ -29,6 +29,7 @@ Pattern matching in JavaScript without additional syntax.
     + [PatroonError](#patroonerror)
 - [Examples](#examples)
 - [Tests](#tests)
+- [Changelog](#changelog)
 - [Contribute](#contribute)
   * [Contributors](#contributors)
 
@@ -603,7 +604,7 @@ npx nyc npm t | npx tap-nyc
 npx nyc check-coverage
 ```
 ```
-    > patroon@1.2.3 test
+    > patroon@1.2.4 test
     > tape ./src/index.test.js
     -------------|---------|----------|---------|---------|-------------------
     File         | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
@@ -617,9 +618,14 @@ npx nyc check-coverage
   total:     28
   passing:   28
 
-  duration:  9.6s
+  duration:  11.6s
 
 ```
+
+## Changelog
+
+See the [CHANGELOG.md][changelog] to know what changes are introduced for each
+version release.
 
 ## Contribute
 
@@ -640,4 +646,5 @@ polite and read the [CONTRIBUTING.md][10].
 [8]:https://github.com/istanbuljs/nyc
 [9]:https://www.npmjs.com/package/patroon
 [10]:./CONTRIBUTING.md
+[changelog]:./CHANGELOG.md
 [runkit]:https://npm.runkit.com/patroon

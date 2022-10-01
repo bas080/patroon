@@ -42,11 +42,11 @@ npm link patroon
 ```
 ```
 
-up to date, audited 3 packages in 2s
+up to date, audited 3 packages in 872ms
 
 found 0 vulnerabilities
 
-added 1 package, and audited 78 packages in 936ms
+added 1 package, and audited 78 packages in 934ms
 
 51 packages are looking for funding
   run `npm fund` for details
@@ -62,9 +62,20 @@ memplate < README.mz | markatzea > README.md
 echo 'Documentation generated successfully.' 1>&2
 ```
 
+## Changelog
+
+The [changelog][changelog] is generated using the useful [auto-changelog][auto-changelog]
+project.
+
+```bash bash > /dev/null
+npx auto-changelog -p
+```
+
 [1]:https://en.wikipedia.org/wiki/Tree_traversal
 [2]:https://github.com/bas080/patroon/blob/master/src/walkable.js
 [3]:https://github.com/bas080/patroon/blob/master/src/index.js
 [4]:https://github.com/bas080/patroon/blob/master/src/helpers.js
 [6]:https://github.com/bas080/markatzea
 [7]:https://github.com/bas080/memplate
+[changelog]:./CHANGELOG.md
+[auto-changelog]:https://www.npmjs.com/package/auto-changelog
