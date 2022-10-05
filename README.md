@@ -22,6 +22,7 @@ Pattern matching in JavaScript without additional syntax.
   * [Some](#some)
   * [Multi](#multi)
   * [Predicate](#predicate)
+  * [Matches](#matches)
   * [Custom Helper](#custom-helper)
   * [Errors](#errors)
     + [NoMatchError](#nomatcherror)
@@ -46,7 +47,9 @@ npm install patroon
 ```js node -
 const {
 
+  // Match Helpers
   patroon,
+  matches,
 
   // Pattern Helpers
   every,
@@ -495,6 +498,34 @@ patroon(
 is greater than 42
 ```
 
+### Matches
+
+A pattern matching helper that can help with using patroon patterns in if
+statements and such.
+
+```js ./tape-test
+const isUser = matches({user: _})
+const isAdmin = matches({user: {admin: true}})
+
+const user = {
+  user: {
+    id: 2
+  }
+}
+
+const admin = {
+  user: {
+    id: 1,
+    admin: true
+  }
+}
+
+JSON.stringify([isUser(admin), isUser(user), isAdmin(admin), isAdmin(user)])
+```
+```
+[true,true,true,false]
+```
+
 ### Custom Helper
 
 It is very easy to write your own helpers. All the builtin helpers are really
@@ -604,7 +635,7 @@ npx nyc npm t | npx tap-nyc
 npx nyc check-coverage
 ```
 ```
-    > patroon@1.3.0 test
+    > patroon@1.4.0 test
     > tape ./src/index.test.js
     -------------|---------|----------|---------|---------|-------------------
     File         | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
@@ -615,10 +646,10 @@ npx nyc check-coverage
      walkable.js |     100 |      100 |     100 |     100 |                   
     -------------|---------|----------|---------|---------|-------------------
 
-  total:     28
-  passing:   28
+  total:     31
+  passing:   31
 
-  duration:  37.4s
+  duration:  10.7s
 
 ```
 
