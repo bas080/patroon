@@ -5,6 +5,7 @@ const { version } = require('../package')
 const {
   reference,
   instanceOf,
+  matches,
   typed,
   t,
   ref,
@@ -224,6 +225,26 @@ test('Does not match on reference', t => {
   t.ok(patroon({ a: [] }, true)({ a: [] }))
   t.ok(patroon({ a: [] }, true)({ a: {} }))
   t.ok(patroon({ a: {} }, true)({ a: [] }))
+  t.end()
+})
+
+test('Matches function', check(gen.any, gen.any, (t, a, b) => {
+  t.ok(matches(a)(a))
+  t.equals(typeof matches(a)(b), 'boolean')
+  t.end()
+}))
+
+test('Check that matches throws non patroon errors', t => {
+  class SomeError extends Error { }
+
+  const predicate = () => {
+    throw new SomeError()
+  }
+  const pattern = {
+    predicate
+  }
+
+  t.throws(() => matches(pattern)({ predicate: 2 }), SomeError)
   t.end()
 })
 

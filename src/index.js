@@ -108,6 +108,13 @@ function instanceOf (ctor) {
   return value => value instanceof ctor
 }
 
+function matches (pattern) {
+  return patroon(
+    pattern, true,
+    T, false
+  )
+}
+
 module.exports = Object.assign(patroon, {
   NoMatchError,
   UnevenArgumentCountError,
@@ -121,5 +128,6 @@ module.exports = Object.assign(patroon, {
   typed,
   t: typed,
   instanceOf,
+  matches,
   _: T
 })

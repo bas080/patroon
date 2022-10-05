@@ -24,7 +24,9 @@ npm install patroon
 ```js node -
 const {
 
+  // Match Helpers
   patroon,
+  matches,
 
   // Pattern Helpers
   every,
@@ -390,6 +392,31 @@ const gt42 = v => v > 42
 patroon(
   [{a: gt42}], 'is greater than 42'
 )([{a: 43}])
+```
+
+### Matches
+
+A pattern matching helper that can help with using patroon patterns in if
+statements and such.
+
+```js ./tape-test
+const isUser = matches({user: _})
+const isAdmin = matches({user: {admin: true}})
+
+const user = {
+  user: {
+    id: 2
+  }
+}
+
+const admin = {
+  user: {
+    id: 1,
+    admin: true
+  }
+}
+
+JSON.stringify([isUser(admin), isUser(user), isAdmin(admin), isAdmin(user)])
 ```
 
 ### Custom Helper
