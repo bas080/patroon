@@ -29,8 +29,7 @@
   "license": "GPL-3.0",
   "devDependencies": {
     "tape": "^5.x",
-    "tape-check": "^1.0.0-rc.0",
-    "testcheck": "^1.0.0-rc.2"
+    "tape-check": "^1.0.0-rc.0"
   },
   "contributors": [
     {
