@@ -42,13 +42,13 @@ npm link patroon
 ```
 ```
 
-up to date, audited 3 packages in 891ms
+up to date, audited 3 packages in 1s
 
 found 0 vulnerabilities
 
-added 1 package, and audited 78 packages in 1s
+added 1 package, and audited 79 packages in 1s
 
-51 packages are looking for funding
+52 packages are looking for funding
   run `npm fund` for details
 
 found 0 vulnerabilities
