@@ -16,7 +16,7 @@
 Standard is good enough.
 
 ```bash bash 1>&2
-npx standard || npx standard --fix
+npx standard
 ```
 
 ## Documentation
