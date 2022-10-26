@@ -16,7 +16,7 @@
 Standard is good enough.
 
 ```bash bash 1>&2
-npx standard || npx standard --fix
+npx standard
 ```
 
 ## Documentation
@@ -42,11 +42,11 @@ npm link patroon
 ```
 ```
 
-up to date, audited 3 packages in 910ms
+up to date, audited 3 packages in 2s
 
 found 0 vulnerabilities
 
-added 1 package, and audited 79 packages in 906ms
+up to date, audited 79 packages in 1s
 
 52 packages are looking for funding
   run `npm fund` for details
