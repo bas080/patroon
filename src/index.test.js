@@ -95,6 +95,26 @@ test('Throws in a predicate function', t => {
   )
 })
 
+function wrappedInFunctions (value, times) {
+  if (times >= 0) { return wrappedInFunctions(() => value, times - 1) }
+
+  return () => value
+}
+
+test('Functions', check(gen.any, gen.int, (t, a, times) => {
+  const value = wrappedInFunctions(a, times)
+
+  patroon(value, a, _, _)(a)
+  patroon(value, value, _, _)(a)
+  patroon(a, value, _, _)(a)
+
+  patroon(value, a, _, _)(value)
+  patroon(value, value, _, _)(value)
+  patroon(a, value, _, _)(value)
+
+  t.end()
+}))
+
 test('Throws when an uneven amount of arguments are passed', t => {
   t.plan(1)
   t.throws(() => patroon(1), UnevenArgumentCountError)
