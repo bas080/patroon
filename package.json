@@ -6,7 +6,7 @@
   "main": "./src/index.js",
   "scripts": {
     "test": "tape ./src/index.test.js",
-    "version": "markatzea CONTRIBUTING.mz | tee CONTRIBUTING.md && git add *.mz *.md"
+    "version": "markatzea CONTRIBUTING.mz | tee CONTRIBUTING.md && git add *.md"
   },
   "keywords": [
     "array",
