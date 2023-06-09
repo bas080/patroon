@@ -44,7 +44,7 @@ npm install patroon
 
 ## Usage
 
-```js node -
+```js
 const {
 
   // Match Helpers
@@ -76,7 +76,7 @@ The simplest thing one can do is to match on a [primitive][1].
 
 Numbers:
 
-```js ./tape-test
+```js
 patroon(
   2, 3,
   1, 2
@@ -88,7 +88,7 @@ patroon(
 
 Strings:
 
-```js ./tape-test
+```js
 patroon(
   'a', 'b',
   'c', 'd'
@@ -100,7 +100,7 @@ d
 
 Booleans:
 
-```js ./tape-test
+```js
 patroon(
   true, false,
   false, true
@@ -112,7 +112,7 @@ false
 
 Symbols:
 
-```js ./tape-test
+```js
 const a = Symbol('a')
 const b = Symbol('b')
 const c = Symbol('c')
@@ -128,7 +128,7 @@ Symbol(c)
 
 Nil values:
 
-```js ./tape-test
+```js
 patroon(
   null, undefined,
   undefined, null,
@@ -143,7 +143,7 @@ null
 Will check if a Regex matches the passed string using the string's `.test`
 method.
 
-```js ./tape-test
+```js
 patroon(
   /^bunion/, 'string starts with bunion',
   /^banana/, 'string starts with banana'
@@ -157,7 +157,7 @@ string starts with banana
 
 The `_` is a placeholder/wildcard value that is useful to implement a default case.
 
-```js ./tape-test
+```js
 patroon(
   1, 'value is 1',
   'a', 'value is a',
@@ -174,7 +174,7 @@ We can combine the `_` with other patroon features.
 
 Patroon can help you match **objects** that follow a certain spec.
 
-```js ./tape-test
+```js
 patroon(
   {b: _}, 'has a "b" property',
   {a: _}, 'has an "a" property'
@@ -186,7 +186,7 @@ has a "b" property
 
 Next we also match on the key's value.
 
-```js ./tape-test
+```js
 patroon(
   {a: 1}, 'a is 1',
   {a: 2}, 'a is 2',
@@ -199,7 +199,7 @@ a is 2
 
 What about nested objects?
 
-```js ./tape-test
+```js
 patroon(
   {a: {a: 1}}, 'a.a is 1',
   {a: {a: 2}}, 'a.a is 2',
@@ -215,7 +215,7 @@ a.a is 2
 Sometimes it's nice to know if the value is of a certain type. We'll use the
 builtin node error constructors in this example.
 
-```js ./tape-test
+```js
 patroon(
   instanceOf(TypeError), 'is a type error',
   instanceOf(Error), 'is an error'
@@ -227,7 +227,7 @@ is an error
 
 Patroon uses `instanceof` to match on types.
 
-```js ./tape-test
+```js
 new TypeError() instanceof Error
 ```
 ```
@@ -236,7 +236,7 @@ true
 
 Because of this you can match a TypeError with an Error.
 
-```js ./tape-test
+```js
 patroon(
   instanceOf(Error), 'matches on error',
   instanceOf(TypeError), 'matches on type error'
@@ -249,7 +249,7 @@ matches on error
 An object of a certain type might also have values we would want to match on.
 Here you should use the every helper.
 
-```js ./tape-test
+```js
 patroon(
   every(instanceOf(TypeError), { value: 20 }), 'type error where value is 20',
   every(instanceOf(Error), { value: 30 }), 'error where value is 30',
@@ -262,7 +262,7 @@ type error where value is 20
 
 Matching on an object type can be written in several ways.
 
-```js ./tape-test > /dev/null
+```js
 patroon({}, 'is object')({})
 patroon(Object, 'is object')({})
 ```
@@ -271,21 +271,21 @@ These are all equivalent.
 
 Arrays can also be matched in a similar way.
 
-```js ./tape-test > /dev/null
+```js
 patroon([], 'is array')([])
 patroon(Array, 'is array')([])
 ```
 
 A less intuitive case:
 
-```js ./tape-test > /dev/null
+```js
 patroon({}, 'is object')([])
 patroon([], 'is array')({})
 ```
 
 Patroon allows this because Arrays can have properties defined.
 
-```js ./tape-test > /dev/null
+```js
 const array = []
 array.prop = 42
 
@@ -294,7 +294,7 @@ patroon({prop: _}, 'has prop')(array)
 
 The other way around is also allowed even if it seems weird.
 
-```js ./tape-test > /dev/null
+```js
 const object = {0: 42}
 patroon([42], 'has 0th')(object)
 ```
@@ -302,7 +302,7 @@ patroon([42], 'has 0th')(object)
 If you do not desire this loose behavior you can use a predicate to make sure
 something is an array or object.
 
-```js ./tape-test > /dev/null
+```js
 patroon(Array.isArray, 'is array')([])
 ```
 
@@ -311,7 +311,7 @@ patroon(Array.isArray, 'is array')([])
 If you wish to match on the reference of a constructor you can use the `ref`
 helper.
 
-```js ./tape-test
+```js
 patroon(
   instanceOf(Error), 'is an instance of Error',
   reference(Error), 'is the Error constructor'
@@ -323,7 +323,7 @@ is the Error constructor
 
 ### Array
 
-```js ./tape-test
+```js
 patroon(
   [], 'is an array',
 )([1, 2, 3])
@@ -332,7 +332,7 @@ patroon(
 is an array
 ```
 
-```js ./tape-test
+```js
 patroon(
   [1], 'is an array that starts with 1',
   [1,2], 'is an array that starts with 1 and 2',
@@ -353,7 +353,7 @@ verbose when wanting to match on a bigger index.
 
 These two patterns are equivalent:
 
-```js ./tape-test
+```js
 patroon(
   {6: 7}, 'Index 6 has value 7',
   [_, _, _, _, _, _, 7], 'Index 6 has value 7'
@@ -365,7 +365,7 @@ Index 6 has value 7
 
 A function that returns the lenght of an array:
 
-```js ./tape-test
+```js
 const count = patroon(
   [_], ([, ...xs]) => 1 + count(xs),
   [], 0
@@ -379,7 +379,7 @@ count([0,1,2,3])
 
 A function that looks for a certain pattern in an array:
 
-```js ./tape-test
+```js
 const containsPattern = patroon(
   [0, 0], true,
   [_, _], ([, ...rest]) => containsPattern(rest),
@@ -394,7 +394,7 @@ true
 
 A toPairs function:
 
-```js ./tape-test
+```js
 const toPairs = patroon(
   [_, _], ([a, b, ...c], p = []) => toPairs(c, [...p, [a, b]]),
   _, (_, p = []) => p
@@ -414,7 +414,7 @@ toPairs([1, 2, 3, 4])
 
 A helper that makes it easy to check if a value passes all patterns.
 
-```js ./tape-test
+```js
 const gte200 = x => x >= 200
 const lt300 = x => x < 300
 
@@ -430,7 +430,7 @@ Is a 200 status code
 
 A helper to check if any of the pattern matches value.
 
-```js ./tape-test
+```js
 const isMovedResponse = patroon(
   {statusCode: some(301, 302, 307, 308)}, true,
   _, false
@@ -447,7 +447,7 @@ true
 Patroon offers the `multi` function in order to match on the value of another
 argument than the first one. This is named [multiple dispatch][2].
 
-```js ./tape-test
+```js
   patroon(
     multi(1, 2, 3), 'arguments are 1, 2 and 3'
   )(1, 2, 3)
@@ -463,7 +463,7 @@ By default a function is assumed to be a predicate.
 See the [references](#references) section if you wish to match on the reference
 of the function.
 
-```js ./tape-test
+```js
 const isTrue = v => v === true
 
 patroon(
@@ -476,7 +476,7 @@ is true
 
 Could one combine predicates with arrays and objects? Sure one can!
 
-```js ./tape-test
+```js
 const gt20 = v => v > 20
 
 patroon(
@@ -487,7 +487,7 @@ patroon(
 is greater than 20
 ```
 
-```js ./tape-test
+```js
 const gt42 = v => v > 42
 
 patroon(
@@ -503,7 +503,7 @@ is greater than 42
 A pattern matching helper that can help with using patroon patterns in if
 statements and such.
 
-```js ./tape-test
+```js
 const isUser = matches({user: _})
 const isAdmin = matches({user: {admin: true}})
 
@@ -532,7 +532,7 @@ It is very easy to write your own helpers. All the builtin helpers are really
 just predicates. Let's look at the source of one of these helpers, the simplest
 one being the `_` helper.
 
-```js ./tape-test
+```js
 _.toString()
 ```
 ```
@@ -542,7 +542,7 @@ _.toString()
 Other more complex helpers like the `every` or `some` helper are also
 predicates.
 
-```js ./tape-test
+```js
 every.toString()
 ```
 ```
@@ -564,7 +564,7 @@ created. It's important to know when they occur.
 
 The no match error occurs when none of the patterns match the value.
 
-```js { ./tape-test 2>&1 || true; } | head -n 6
+```js
 const oneIsTwo = patroon(1, 2)
 
 oneIsTwo(3)
@@ -582,7 +582,7 @@ NoMatchError: Not able to match any pattern for arguments
 
 Another error that occurs is when the patroon function is not used correctly.
 
-```js { ./tape-test 2>&1 || true; } | head -n 6
+```js
 patroon(1)
 ```
 ```
@@ -598,7 +598,7 @@ UnevenArgumentCountError: Patroon should have an even amount of arguments.
 
 All errors patroon produces can be matched against the PatroonError using `instanceof`.
 
-```js ./tape-test
+```js
 const isPatroonError = patroon(instanceOf(PatroonError), 'patroon is causing an error')
 
 isPatroonError(new NoMatchError())
@@ -624,7 +624,7 @@ some property based tests.
 We also care about code coverage so we'll use [nyc][8] to generate a coverage
 report.
 
-```bash bash -eo pipefail
+```bash
 # Clean install dependencies.
 npm ci &> /dev/null
 
@@ -635,7 +635,7 @@ npx nyc npm t | npx tap-nyc
 npx nyc check-coverage
 ```
 ```
-    > patroon@1.5.0 test
+    > patroon@1.5.1 test
     > tape ./src/index.test.js
     -------------|---------|----------|---------|---------|-------------------
     File         | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
@@ -649,7 +649,7 @@ npx nyc check-coverage
   total:     31
   passing:   31
 
-  duration:  8.2s
+  duration:  7.5s
 
 ```
 

@@ -15,7 +15,7 @@
 
 Standard is good enough.
 
-```bash bash 1>&2
+```bash
 npx standard
 ```
 
@@ -23,30 +23,30 @@ npx standard
 
 We generate the contributors list using node and store it in [memplate][7].
 
-```js node -p | memplate contributors
+```js
 require('./package.json').contributors.reduce((acc, {name, url, email}) =>
   `${acc}- **${name}** *${url}*\n`, '')
 ```
 
 We also generate the table of contents and store it in memplate.
 
-```bash bash | memplate toc
+```bash
 npx markdown-toc --no-firsth1 --maxdepth 4 README.mz
 ```
 
 For the tests in the README.mz to work we also need to install patroon.
 
-```bash bash
+```bash
 npm link
 npm link patroon
 ```
 ```
 
-up to date, audited 3 packages in 842ms
+up to date, audited 3 packages in 961ms
 
 found 0 vulnerabilities
 
-added 1 package, and audited 79 packages in 897ms
+added 1 package, and audited 79 packages in 998ms
 
 52 packages are looking for funding
   run `npm fund` for details
@@ -57,7 +57,7 @@ found 0 vulnerabilities
 We then use memplate to template the README. Then we run [markatzea][6] to run
 the examples and show the output of those.
 
-```bash bash
+```bash
 memplate < README.mz | markatzea > README.md
 echo 'Documentation generated successfully.' 1>&2
 ```
@@ -67,7 +67,7 @@ echo 'Documentation generated successfully.' 1>&2
 The [changelog][changelog] is generated using the useful [auto-changelog][auto-changelog]
 project.
 
-```bash bash > /dev/null
+```bash
 npx auto-changelog -p
 ```
 
