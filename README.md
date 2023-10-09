@@ -5,7 +5,6 @@ Pattern matching in JavaScript without additional syntax.
 [![NPM](https://img.shields.io/npm/v/patroon?color=blue&style=flat-square)](https://www.npmjs.com/package/patroon)
 [![NPM Downloads](https://img.shields.io/npm/dm/patroon?style=flat-square)](https://www.npmjs.com/package/patroon)
 [![100% Code Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen?style=flat-square)](#tests)
-[![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/patroon?style=flat-square)](https://snyk.io/vuln/npm:patroon)
 [![Standard Code Style](https://img.shields.io/badge/code_style-standard-brightgreen.svg?style=flat-square)](https://standardjs.com)
 [![License](https://img.shields.io/npm/l/patroon?color=brightgreen&style=flat-square)](./LICENSE)
 
@@ -635,7 +634,7 @@ npx nyc npm t | npx tap-nyc
 npx nyc check-coverage
 ```
 ```
-    > patroon@1.5.2 test
+    > patroon@1.5.3 test
     > tape ./src/index.test.js
     -------------|---------|----------|---------|---------|-------------------
     File         | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
@@ -649,7 +648,7 @@ npx nyc check-coverage
   total:     31
   passing:   31
 
-  duration:  9.2s
+  duration:  9.3s
 
 ```
 
