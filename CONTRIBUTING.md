@@ -21,14 +21,14 @@ npx standard
 
 ## Documentation
 
-We generate the contributors list using node and store it in [memplate][7].
+We generate the contributors list using node and store it in [woven][7].
 
 ```js
 require('./package.json').contributors.reduce((acc, {name, url, email}) =>
   `${acc}- **${name}** *${url}*\n`, '')
 ```
 
-We also generate the table of contents and store it in memplate.
+We also generate the table of contents and store it in woven.
 
 ```bash
 npx markdown-toc --no-firsth1 --maxdepth 4 README.mz
@@ -42,23 +42,23 @@ npm link patroon
 ```
 ```
 
-up to date, audited 3 packages in 939ms
+up to date, audited 3 packages in 587ms
 
 found 0 vulnerabilities
 
-added 1 package, and audited 95 packages in 936ms
+added 1 package, and audited 127 packages in 794ms
 
-65 packages are looking for funding
+85 packages are looking for funding
   run `npm fund` for details
 
 found 0 vulnerabilities
 ```
 
-We then use memplate to template the README. Then we run [markatzea][6] to run
+We then use woven to template the README. Then we run [markatzea][6] to run
 the examples and show the output of those.
 
 ```bash
-memplate < README.mz | markatzea > README.md
+woven < README.mz | markatzea > README.md
 echo 'Documentation generated successfully.' 1>&2
 ```
 
@@ -76,6 +76,6 @@ npx auto-changelog -p
 [3]:https://github.com/bas080/patroon/blob/master/src/index.js
 [4]:https://github.com/bas080/patroon/blob/master/src/helpers.js
 [6]:https://github.com/bas080/markatzea
-[7]:https://github.com/bas080/memplate
+[7]:https://github.com/bas080/woven
 [changelog]:./CHANGELOG.md
 [auto-changelog]:https://www.npmjs.com/package/auto-changelog

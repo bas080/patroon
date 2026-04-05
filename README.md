@@ -569,12 +569,12 @@ const oneIsTwo = patroon(1, 2)
 oneIsTwo(3)
 ```
 ```
-/home/ant/projects/patroon/src/index.js:96
+/home/blue/project/patroon/src/index.js:96
       throw error
       ^
 
 NoMatchError: Not able to match any pattern for arguments
-    at /home/ant/projects/patroon/src/index.js:90:21
+    at /home/blue/project/patroon/src/index.js:90:21
 ```
 
 #### UnevenArgumentCountError
@@ -585,12 +585,12 @@ Another error that occurs is when the patroon function is not used correctly.
 patroon(1)
 ```
 ```
-/home/ant/projects/patroon/src/index.js:82
+/home/blue/project/patroon/src/index.js:82
   if (!isEven(list.length)) { throw new UnevenArgumentCountError('Patroon should have an even amount of arguments.') }
                               ^
 
 UnevenArgumentCountError: Patroon should have an even amount of arguments.
-    at patroon (/home/ant/projects/patroon/src/index.js:82:37)
+    at patroon (/home/blue/project/patroon/src/index.js:82:37)
 ```
 
 #### PatroonError
@@ -634,7 +634,7 @@ npx nyc npm t | npx tap-nyc
 npx nyc check-coverage
 ```
 ```
-    > patroon@1.5.3 test
+    > patroon@1.5.4 test
     > tape ./src/index.test.js
     -------------|---------|----------|---------|---------|-------------------
     File         | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
@@ -648,7 +648,7 @@ npx nyc check-coverage
   total:     31
   passing:   31
 
-  duration:  9.3s
+  duration:  8.2s
 
 ```
 
@@ -677,4 +677,4 @@ polite and read the [CONTRIBUTING.md][10].
 [9]:https://www.npmjs.com/package/patroon
 [10]:./CONTRIBUTING.md
 [changelog]:./CHANGELOG.md
-[runkit]:https://npm.runkit.com/patroon
+[runkit]:https://runkit.com/npm/patroon
